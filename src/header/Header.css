@@ -1,20 +1,32 @@
-/* Header.css */
 .app-header {
     background-color: #007bff;
     color: #fff;
     padding: 10px;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    background:linear-gradient(#2A00B7, #42006C);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
+  .logo-image{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
   .left-content {
     display: flex;
     align-items: center;
+    padding: 0;
+    margin: 0;
+    
   }
   
   .left-content h1 {
-    margin-right: auto; /* Move the "Skillsyncs" slogan to the left end */
+    margin-right: auto;
+
   }
 h1{
     font-size: 60px;
@@ -23,7 +35,7 @@ h1{
 }
   nav {
     display: flex;
-    margin-left: auto; /* Move nav to the right end */
+    margin-left: auto; 
   }
   
   nav a {
@@ -37,6 +49,7 @@ h1{
     outline: none;
     margin-left: 10px;
     font-family: 'Inter', sans-serif;
+    cursor: pointer;
   }
   nav a:hover {
     text-decoration: underline;

@@ -6,7 +6,6 @@ import email_icon from '../assets/mail_FILL0_wght400_GRAD0_opsz24.png'
 import password_icon from '../assets/lock_FILL0_wght400_GRAD0_opsz24.png'
 
 export default function LoginSignup() {
-
     const [action, setAction] = useState("Sign Up")
   return (
     <div className="container">
