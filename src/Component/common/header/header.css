@@ -1,0 +1,103 @@
+/*--------head------------*/
+.head {
+  padding: 20px 0;
+  color: #fff;
+  background-color: hwb(273 12% 30%);
+  border-top-right-radius: 10px;
+  border-top-left-radius:10px;
+  border-bottom-left-radius:10px ;
+  border-bottom-right-radius: 10px;
+}
+.logo h1 {
+  font-size: 40px;
+  font-weight: 900;
+  margin: 0;
+  padding: 0;
+}
+span{
+  font-size: 25px;
+}
+.head .icon {
+  margin-left: 10px;
+}
+header {
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: 0 30px;
+}
+header .nav {
+  display: flex !important;
+}
+header li {
+  margin-right: 40px;
+  font-size: 25px;
+  font-weight: 700px;
+}
+header ul {
+  padding: 30px 20px;
+}
+header ul li a {
+  color: hsl(262, 67%, 47%);
+  font-weight: 500;
+  transition: 0.5s;
+}
+header ul li a:hover {
+  color: #1eb2a6;
+}
+.start {
+  background-color: #1eb2a6;
+  padding: 30px 70px;
+  color: #fff;
+  clip-path: polygon(10% 0%, 100% 0, 100% 100%, 0% 100%);
+  display: flex;
+
+}
+.start .button{
+  border: 1px solid #bf44e1 ;
+  padding: 20px;
+  margin-left: 25px;
+  border-radius: 20px;
+  background-color: #bf44e1;
+  cursor: pointer;
+}
+
+.start .button:hover{
+  transition: transform(20deg);
+}
+
+.toggle {
+  display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+  .start {
+    clip-path: none;
+  }
+  header {
+    margin: 0;
+    background-color: #1eb2a6;
+    position: relative;
+  }
+  header ul.flexSB {
+    display: none;
+  }
+  header ul li {
+    margin-bottom: 20px;
+  }
+  .toggle {
+    display: block;
+    background: none;
+    color: #fff;
+    font-size: 30px;
+    position: absolute;
+    right: 0;
+    top: -20px;
+  }
+  .mobile-nav {
+    position: absolute;
+    top: 7vh;
+    left: 0;
+    width: 100%;
+    background-color: #1eb2a6;
+  }
+}
