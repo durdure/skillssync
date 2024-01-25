@@ -1,6 +1,7 @@
-from .models import User
+from .models import User, Mentor, Mentee, Session
 from flask import request, Blueprint, jsonify
 from app import db, bcrypt
+from datetime import datetime
 from flask_login import current_user, login_user, logout_user, login_required
 
 
@@ -65,3 +66,22 @@ def logout():
         return jsonify({'message': 'Logout successful'}), 200
     else:
         return jsonify({'error': 'User has not logged in'}), 401
+    
+# API routes for session management
+@auth.route('/mentors/<int:mentor_id>/availability', methods=['PUT'])
+def set_mentor_availability(mentor_id):
+    mentor = Mentor.query.get(mentor_id)
+    data = request.get_json()
+    mentor.availability = data['availability']
+    db.session.commit()
+    return jsonify({'message': 'Mentor availability updated successfully'}), 200
+
+@auth.route('/session/request', methods=['POST'])
+def request_session():
+    data = request.get_json()
+    mentor_id = data['mentor_id']
+    mentee_id = data['mentee_id']
+    date_time = data['date_time']
+    
+    mentor = Mentor.query.get(mentor_id)
+    mentee = Mentee.query.get(mentee_id)
