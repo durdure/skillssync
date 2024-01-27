@@ -5,18 +5,18 @@ import "./team.css"
 import Awrapper from "../about/Awrapper"
 import "../about/about.css"
 
-const Team = () => {
+
+export default function Team() {
   return (
     <>
-      <Back title='Team' />
-      <section className='team padding'>
-        <div className='container grid'>
-          <TeamCard />
-        </div>
-      </section>
-      <Awrapper />
-    </>
-  )
-}
-
-export default Team
+       <Back title='Team' />
+       <section className='team padding'>
+         <div className='container grid'>
+           <TeamCard />
+         </div>
+       </section>
+       <Awrapper />
+     </>
+   )
+ }
+  

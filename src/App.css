@@ -6,10 +6,10 @@
 }
 body {
   font-family: "Roboto", sans-serif;
-  background-color: #f8f8f8;
+  background-color: rgb(79, 203, 154);
 }
 /*------------global-----------*/
-.container {
+/* .container {
   max-width: 85%;
   margin: auto;
 }
@@ -62,10 +62,14 @@ button:hover {
 .primary-btn {
   background-color: #1eb2a6;
   color: #fff;
-}
+} */
 
 /*------------global-----------*/
-#heading {
+
+
+
+
+/* #heading {
   text-align: center;
   padding: 40px 0;
 }
@@ -97,10 +101,10 @@ p {
   height: 100vh;
   padding-top: 30%;
   padding-right: 50px;
-  color: #fff;
+  color: hsl(281, 85%, 30%);
   text-align: center;
-}
-.back h1 {
+} */
+/* .back h1 {
   font-size: 100px;
   font-weight: 400;
 }
@@ -159,4 +163,4 @@ p {
     padding-top: 50%;
     height: 80vh;
   }
-}
+} */

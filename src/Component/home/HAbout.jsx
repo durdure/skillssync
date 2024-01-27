@@ -12,7 +12,6 @@ const HAbout = () => {
           <Heading subtitle='our courses' title='explore our popular online courses' />
 
           <div className='coursesCard'>
-            {/* copy code form  coursesCard */}
             <div className='grid2'>
               {coursesCard.slice(0, 3).map((val) => (
                 <div className='items'>
@@ -22,6 +21,9 @@ const HAbout = () => {
                         <img src={val.cover} alt='' />
                       </div>
                     </div>
+
+
+
                     <div className='text'>
                       <h1>{val.coursesName}</h1>
                       <div className='rate'>
@@ -32,6 +34,9 @@ const HAbout = () => {
                         <i className='fa fa-star'></i>
                         <label htmlFor=''>(5.0)</label>
                       </div>
+
+
+
                       <div className='details'>
                         {val.courTeacher.map((details) => (
                           <>
@@ -49,6 +54,9 @@ const HAbout = () => {
                       </div>
                     </div>
                   </div>
+
+
+
                   <div className='price'>
                     <h3>
                       {val.priceAll} / {val.pricePer}

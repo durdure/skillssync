@@ -12,6 +12,7 @@ const Header = () => {
       <Head />
       <header>
         <nav className='flexSB'>
+          
           <ul className={click ? "mobile-nav" : "flexSB "} onClick={() => setClick(false)}>
             <li>
               <Link to='/'>Home</Link>
@@ -36,10 +37,14 @@ const Header = () => {
               <Link to='/contact'>Contact</Link>
             </li>
           </ul>
+
+
           <div className='start'>
-            <div className='button'>To be Mentee</div>
-            <div className="button">To be Mentor</div>
-          </div>
+            <Link to='/mentee' className='button'>
+                 <h3>To be Mentee</h3> 
+            </Link>
+              <div className="button">To be Mentor</div>
+            </div>
           <button className='toggle' onClick={() => setClick(!click)}>
             {click ? <i className='fa fa-times'> </i> : <i className='fa fa-bars'></i>}
           </button>

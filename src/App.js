@@ -1,33 +1,37 @@
-import "./App.css"
-import Header from './Component/common/header/Header'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import About from './Component/about/About'
-import CourseHome from './Component/allcourses/CourseHome'
-import Team from './Component/team/Team'
-import Pricing from './Component/pricing/Pricing'
-import Blog from './Component/blog/Blog'
-import Contact from './Component/contact/contact'
-import Footer from './Component/common/footer/Footer'
-import Home from './Component/home/Home'
+// App.jsx
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./Component/common/header/Header";
+// import About from "./Component/about/About";
+// import CourseHome from "./Component/allcourses/CourseHome";
+// import Team from "./Component/team/Team";
+// import Pricing from "./Component/pricing/Pricing";
+// import Blog from "./Component/blog/Blog";
+// import Contact from "./Component/contact/contact";
+import Footer from "./Component/common/footer/Footer";
+// import Home from "./Component/home/Home";
+// import LoginSignup from './Component/mentee/loginSignup';
+// // import AboutHome from "./Component/about/AboutHome";
+
 function App() {
   return (
     <>
       <Router>
         <Header />
         <Routes>
-        <Route exact path='/' component={Home} />
-          <Route exact path='/about' component={About} />
-          <Route exact path='/courses' component={CourseHome} />
-          <Route exact path='/team' component={Team} />
-          <Route exact path='/pricing' component={Pricing} />
-          <Route exact path='/journal' component={Blog} />
-          <Route exact path='/contact' component={Contact} />
+          {/* <Route path='/' element={<Home />} /> */}
+          {/* <Route path='/about' element={<About />} />
+          <Route path='/courses' element={<CourseHome />} />
+          <Route path='/team' element={<Team />} />
+          <Route path='/pricing' element={<Pricing />} />
+          <Route path='/journal' element={<Blog />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/mentee' element={<LoginSignup />}/> */}
         </Routes>
-         
         <Footer />
       </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
