@@ -1,15 +1,19 @@
 import React from "react"
 import { blog } from "../../../dummydata"
 import "./footer.css"
-
+import image_ppi from "../header/one_1111-removebg-preview.png"
 const Footer = () => {
   return (
     <>
       <section className='newletter'>
         <div className='container flexSB'>
           <div className='left row'>
+            <div className="note">
             <h1>Newsletter - Stay tune and get the latest update</h1>
             <span>Far far away, behind the word mountains</span>
+            </div>
+           
+            <img src={image_ppi} alt="" />
           </div>
         </div>
       </section>
@@ -33,7 +37,7 @@ const Footer = () => {
               <li>Blog</li>
               <li>Contact us</li>
             </ul>
-          </div>
+          </div> 
           <div className='box link'>
             <h3>Quick Links</h3>
             <ul>
@@ -44,7 +48,7 @@ const Footer = () => {
               <li>Feedbacks</li>
             </ul>
           </div>
-          <div className='box'>
+           <div className='box'>
             <h3>Recent Post</h3>
             {blog.slice(0, 3).map((val) => (
               <div className='items flexSB'>

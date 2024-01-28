@@ -17,20 +17,14 @@ const Header = () => {
             <li>
               <Link to='/'>Home</Link>
             </li>
-            <li>
-              <Link to='/courses'>All Courses</Link>
-            </li>
-            <li>
+                        <li>
               <Link to='/about'>About</Link>
             </li>
             <li>
               {/* <a href={team}>Team</a> */}
               <a href="team">Team</a>
             </li>
-            <li>
-              <Link to='/pricing'>Pricing</Link>
-            </li>
-            <li>
+                      <li>
               <Link to='/journal'>Journal</Link>
             </li>
             <li>

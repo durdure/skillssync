@@ -16,7 +16,10 @@
   font-weight: 500;
   margin-bottom: 15px;
 }
-
+.left{
+  display: flex;
+  flex-direction:row;
+}
 .newletter span{
   font-size: 25px;
 }
@@ -24,7 +27,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}/*
+}
+
+.left img{
+  width: auto;
+  height: auto;
+  margin-left: 100px;
+  padding-left: 300px;
+  margin-top: -150px;
+  
+
+}
+
+
 .newletter input {
   width: 100%;
   padding: 20px;
@@ -116,4 +131,4 @@ footer .last i {
 }
 .legal i {
   color: #1eb2a6;
-} */
+}
