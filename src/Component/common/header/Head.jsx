@@ -11,16 +11,19 @@ const Head = () => {
             <h1>Skillsync</h1>
             <span>ONLINE Mentorship</span>
           </div>
+
+
           <div className="button">
-              <button>Singin/SignUp</button>
+              SignIn/SignUp
             </div>
 
-          <div className='social'>
+
+          {/* <div className='social'>
             <i className='fab fa-facebook-f icon'></i>
             <i className='fab fa-instagram icon'></i>
             <i className='fab fa-twitter icon'></i>
             <i className='fab fa-youtube icon'></i>
-          </div> 
+          </div>  */}
         </div>
       </section>
     </>

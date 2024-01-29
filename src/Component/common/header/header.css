@@ -27,12 +27,24 @@ img{
   margin-left: 0px;
 }
 
+.head .button{
+  font-size: 25px;
+  background-color: #9b2c81;
+  text-align: center;
+  align-items: center;
+  width: 300px;
+  margin-left: 800px;
+}
+
+
 header { 
   background-color: rgba(101, 211, 50, 0.2);
   margin: 0px;
   border-radius: 10px;
   display: flex;
 }
+
+
 
 header .nav {
   display: flex;
