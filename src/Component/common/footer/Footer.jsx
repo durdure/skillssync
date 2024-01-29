@@ -13,6 +13,10 @@ const Footer = () => {
             <div className="note">
             <h1>Newsletter - Stay tune and get the latest update</h1>
             <span>Far far away, behind the word mountains</span>
+            <div className="buttonOne">
+              <button className="Get"> Get Started</button>
+              <button className="Get"> Learn More</button>
+              </div>
             </div>
            
             <img src={image_ppi} alt="" />
@@ -23,9 +27,9 @@ const Footer = () => {
 
 
         <div className='container padding'>
-          <div className='box logo'>
-            <img src={logof} alt="" srcset="" />
+          <div className='box logo'> 
             <div className='logo'>
+            <img src={logof} alt="" srcset="" />
               <h1>Skillsync</h1>
               <span>ONLINE Mentorship</span>
           </div>
