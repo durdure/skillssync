@@ -35,11 +35,13 @@ const Header = () => {
 
           <div className='start'>
             <Link to='/mentee' className='button'>
-                 <h3>To be Mentee</h3> 
+            <button className="buttonTwo">To be Mentee</button>
             </Link>
-              <div className="button">To be Mentor</div>
+              <button className="buttonTwo">To be Mentor</button>
+
+              <div className="resourse">Resourses</div>
             </div>
-          <button className='toggle' onClick={() => setClick(!click)}>
+              <button className='toggle' onClick={() => setClick(!click)}>
             {click ? <i className='fa fa-times'> </i> : <i className='fa fa-bars'></i>}
           </button>
         </nav>
