@@ -100,9 +100,7 @@ def confirm_email(token):
 @login_required
 def unconfirmed():
     if current_user.confirmed:
-        # return redirect('home')
-        pass
-    return jsonify({'message' : 'Please confirm your account!'}), 200
+        return jsonify({'message' : 'Please confirm your account!'}), 200
 
 
 @auth.route('/resend')
