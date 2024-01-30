@@ -9,10 +9,9 @@ const Head = () => {
           <img src={logoImage} alt="" srcset="" />
           <div className='logo'>
             <h1>Skillsync</h1>
-            <span>ONLINE Mentorship</span>
+            <span>Online Mentorship</span>
           </div>
-
-            <button className="buttonThree"> SignIn/SignUp</button>
+            <button className="buttonThree"> <h1>SingIn/SignUp</h1></button>
         </div>
       </section>
     </>

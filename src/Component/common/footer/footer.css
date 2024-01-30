@@ -1,21 +1,42 @@
 .newletter {
-  background-color: hsl(287, 65%, 50%);
+  background-color: hsl(295, 71%, 41%);
   padding: 50px 0;
-  color: #fff;
+  color: hsl(0, 78%, 66%);
   border-radius: 10px;
   height: 40vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
 }
+
+/* .newletter .container{
+  background-color: hsl(295, 71%, 41%);
+  margin-top: -210px;
+  margin-right: 300px;
+} */
+
+.newletter img{
+  width: auto;
+  height: auto;
+  margin-left: 300px;
+}
+
 .newletter .right,
 .newletter .left {
-  padding-right: 50px;
+  padding-right:0px;
   padding-top: 100px;
+  padding-left: 100px;
 }
-.newletter h1 {
+
+/* .newletter h1 {
   color: #49d8a6;
   font-size: 40px;
   font-weight: 500;
   margin-bottom: 15px;
-}
+  width: 100vw;
+} */
+
+/*
 .left{
   display: flex;
   flex-direction:row;
@@ -26,8 +47,8 @@
 .newletter .right {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-}
+  /* align-items: center;*/
+
 
 .newletter .buttonOne{
   margin-left: 200px;
@@ -57,46 +78,30 @@
 
 
 
-.left img{
-  width: auto;
-  height: auto;
-  margin-left: 100px;
-  padding-left: 300px;
-  margin-top: -150px;
-  
-
-}
-
 .newletter i {
   padding: 12px;
   color: #1eb2a6;
   background-color: #fff;
 }
 
-
-footer {
-  background-color:#fff
+footer  .container {
+  width: 100vw;
+  background-color: #fff;
 }
 
-
-footer .container {
-  display: grid;
-  grid-template-columns: 3fr 2fr 2fr 4fr 3fr;
-  grid-gap: 30px;
-  padding-top: 50px;
-}
 
 
 @media screen and (max-width: 768px) {
   footer .container {
     grid-template-columns: repeat(2, 1fr);
   }
-}
+}  
 
 
-footer .logo span {
+footer .container .box .logo{
   color: #1eb2a6;
   font-size: 14px;
+  display: flex;
 }
 
 .box .onoo{
@@ -118,7 +123,6 @@ footer h3 {
 }
 footer ul li {
   margin-bottom: 20px;
-  text-decoration: none;
 }
 footer .link li::before {
   content: "⟶";
