@@ -1,7 +1,10 @@
 from .models import User
-from flask import request, Blueprint, jsonify
+from flask import request, Blueprint, jsonify, render_template, url_for, redirect
 from app import db, bcrypt
 from flask_login import current_user, login_user, logout_user, login_required
+from app.utils.email import send_email
+from app.utils.token_1 import confirm_token, generate_confirmation_token
+import datetime
 
 
 auth = Blueprint('auth', __name__)
@@ -30,6 +33,12 @@ def register():
     db.session.add(new_user)
     db.session.commit()
 
+    token = generate_confirmation_token(email)
+    confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+    html = render_template('activate.html', confirm_url=confirm_url)
+    subject = "Email Confirmation Link"
+    send_email(email, subject, html)
+
     response_data = {
         'id': new_user.id,
         'username': new_user.username,
@@ -37,7 +46,7 @@ def register():
         'image_file': new_user.image_file
     }
 
-    return jsonify({'data': response_data, 'message':'User registered successfully'}), 201
+    return jsonify({'data': response_data, 'message':'User registered successfully, check your email to verify'}), 201
 
 
 
@@ -65,3 +74,41 @@ def logout():
         return jsonify({'message': 'Logout successful'}), 200
     else:
         return jsonify({'error': 'User has not logged in'}), 401
+
+
+
+@auth.route('/confirm/<token>')
+@login_required
+def confirm_email(token):
+    try:
+        email = confirm_token(token)
+    except:
+        return jsonify({'error' : 'The confirmation link is invalid or has expired'}), 401
+    user = User.query.filter_by(email=email).first_or_404()
+    if user.confirmed:
+        return jsonify({'message' : 'Account already confirmed. Please login.'}), 200
+    else:
+        user.confirmed = True
+        user.confirmed_on = datetime.datetime.now()
+        db.session.add(user)
+        db.session.commit()
+        return jsonify({'message' : 'You have confirmed your account. Thanks!'}), 200
+
+
+
+@auth.route('/unconfirmed')
+@login_required
+def unconfirmed():
+    if current_user.confirmed:
+        return jsonify({'message' : 'Please confirm your account!'}), 200
+
+
+@auth.route('/resend')
+@login_required
+def resend_confirmation():
+    token = generate_confirmation_token(current_user.email)
+    confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+    html = render_template('activate.html', confirm_url=confirm_url)
+    subject = "Please confirm your email"
+    send_email(current_user.email, subject, html)
+    return jsonify({'message' : 'A new confirmation email has been sent.'})

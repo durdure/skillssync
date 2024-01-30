@@ -4,11 +4,13 @@ import os
 from PIL import Image
 import secrets
 from app import db
+from app.utils.decorators_1 import check_confirmed
 
 user = Blueprint('user', __name__)
 
 @user.route('/profile', methods=['GET'], strict_slashes=False)
 @login_required
+@check_confirmed
 def get_profile():
     profile_data = {
         'user_id': current_user.user_id,
@@ -37,6 +39,7 @@ def save_picture(form_picture):
 
 @user.route('/profile', methods=['PUT'], strict_slashes=False)
 @login_required
+@check_confirmed
 def update_profile():
     try:
         data = request.get_json()
