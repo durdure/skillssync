@@ -147,3 +147,11 @@ header ul li a:hover {
     background-color: #1eb2a6;
   }
 
+.flower{
+  width: 50%;
+  margin: 0 auto;
+}
+.flower svg#flower-frame{
+  height: 90vh;
+  width: 100%;
+}
