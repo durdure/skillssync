@@ -18,7 +18,10 @@ def all_posts():
             'post_id': post.id,
             'title': post.title,
             'content': post.content,
-            'author': post.author.username,
+            'author': {
+                'username': post.author.username,
+                'image_file': post.author.image_file
+            },
             'date_posted': post.date_posted.isoformat(),
         } for post in posts
     ]
@@ -38,6 +41,10 @@ def user_posts():
             'post_id': post.id,
             'title': post.title,
             'content': post.content,
+            'author': {
+                'username': post.author.username,
+                'image_file': post.author.image_file
+            },
             'date_posted': post.date_posted.isoformat(),
         } for post in user_posts
     ]
@@ -81,7 +88,10 @@ def view_post(post_id):
         'post_id': post.id,
         'title': post.title,
         'content': post.content,
-        'author': post.author.username,
+        'author': {
+            'username': post.author.username,
+            'image_file': post.author.image_file
+        },
         'date_posted': post.date_posted.isoformat(),
     }
     return jsonify({'status': 'success', 'data': post_data})
@@ -137,48 +147,3 @@ def delete_post(post_id):
         error_message = str(e)
         return jsonify({'status': 'error', 'message': f'Failed to delete post. Error: {error_message}'}), 500
     
-
-@post.route("/new_comment/<int:post_id>", methods=['POST'], strict_slashes=False)
-@login_required
-def new_comment(post_id):
-    post = Post.query.get_or_404(post_id)
-    data = request.get_json()
-    content = data.get('content')
-
-    try:
-        new_comment = Comment(content=content, post=post, user=current_user)
-        db.session.add(new_comment)
-        db.session.commit()
-
-        response_data = {
-            'comment_id': new_comment.id,
-            'content': new_comment.content,
-        }
-
-        return jsonify({'status': 'success', 'data': response_data, 'message': 'Comment added successfully'}), 201
-
-    except SQLAlchemyError as e:
-        db.session.rollback()
-        error_message = str(e)
-        return jsonify({'status': 'error', 'message': f'Failed to add comment. Error: {error_message}'}), 500
-
-
-@post.route("/delete_comment/<int:comment_id>", methods=['DELETE'], strict_slashes=False)
-@login_required
-def delete_comment(comment_id):
-    comment = Comment.query.get_or_404(comment_id)
-
-    # Check if the current user is the author of the comment
-    if current_user != comment.user:
-        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
-
-    try:
-        db.session.delete(comment)
-        db.session.commit()
-
-        return jsonify({'status': 'success', 'message': 'Comment deleted successfully'})
-
-    except SQLAlchemyError as e:
-        db.session.rollback()
-        error_message = str(e)
-        return jsonify({'status': 'error', 'message': f'Failed to delete comment. Error: {error_message}'}), 500
