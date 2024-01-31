@@ -20,6 +20,7 @@
   flex-direction: row;
   margin: 20px;
   background-color: hsl(295, 71%, 41%);
+  width: 100vw;
   }
 .head .container .logo h1{
   font-size: 60px;
@@ -32,23 +33,38 @@ img{
 
 
 .head .container .buttonThree{
-  background-color: hsl(314, 64%, 48%);
-  margin-left: 900px;
-  border: 1px solid #fff;
+  background: linear-gradient(to left, #00ffff, #FF02FF);
+  margin-left: 70px;
+  border: 2px solid #fff;
   border-radius:20px ;
-  width: 500px;
+  width: 400px;
   height: 80px;
-  color: #fff;
+  color: hsl(288, 71%, 30%);
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Raleway', 'sans-serif';
 }
 
-.head .buttonThree:hover{
-  color: #1eb2a6;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+.head .container .buttonThree::before{
+  content: "";
+  top: 0;
+  left: 0;
+  background-color: linear-gradient(120deg, transparent, #00fffc, transparent);
+  transform: translateX(-100%);
+  transition: 0.6s;
+  position: absolute;
 }
+
+
+.head .buttonThree:hover{
+  color: hsl(176, 47%, 82%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color:transparent;
+  box-shadow: 0 0 20px 5px #00fffc;
+}
+
+
 
 .head .container .buttonThree h1{
   padding: 10px;

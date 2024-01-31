@@ -21,6 +21,11 @@
   margin-left: 300px;
 }
 
+.newletter img:hover{
+  scale: 1.3;
+  
+}
+
 .newletter .right,
 .newletter .left {
   padding-right:0px;
