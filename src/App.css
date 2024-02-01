@@ -8,8 +8,10 @@ body {
   font-family: "Roboto", sans-serif;
   background-color: rgb(79, 203, 154);
 }
+
+
 /*------------global-----------*/
-/* .container {
+.container {
   max-width: 85%;
   margin: auto;
 }
@@ -64,12 +66,10 @@ button:hover {
   color: #fff;
 } */
 
-/*------------global-----------*/
 
 
 
-
-/* #heading {
+#heading {
   text-align: center;
   padding: 40px 0;
 }
@@ -103,8 +103,9 @@ p {
   padding-right: 50px;
   color: hsl(281, 85%, 30%);
   text-align: center;
-} */
-/* .back h1 {
+} 
+
+ .back h1 {
   font-size: 100px;
   font-weight: 400;
 }
@@ -163,4 +164,4 @@ p {
     padding-top: 50%;
     height: 80vh;
   }
-} */
+}

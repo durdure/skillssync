@@ -33,14 +33,14 @@ const Header = () => {
           </ul>
 
 
-          <div className='start'>
+          {/* <div className='start'>
             <Link to='/mentee' className='button'>
             <button className="buttonTwo">To be Mentee</button>
             </Link>
               <button className="buttonTwo">To be Mentor</button>
 
               <div className="resourse">Resourses</div>
-            </div>
+            </div> */}
               <button className='toggle' onClick={() => setClick(!click)}>
             {click ? <i className='fa fa-times'> </i> : <i className='fa fa-bars'></i>}
           </button>
