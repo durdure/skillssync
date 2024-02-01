@@ -1,5 +1,6 @@
 import React from "react"
 import logoImage from '../header/Skillsynoc.png'
+import { Link } from "react-router-dom"
 
 const Head = () => {
   return (
@@ -12,8 +13,10 @@ const Head = () => {
             <span>Online Mentorship</span>
           </div>
           <div className="flower"></div>
-
-            <button className="buttonThree"> <h1>SingIn/SignUp</h1></button>
+          <Link to='/mentee'>
+          <button className="buttonThree"> <h1>SingIn/SignUp</h1></button>
+          </Link>
+            
         </div>
       </section>
     </>

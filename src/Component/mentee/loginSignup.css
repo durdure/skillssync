@@ -35,7 +35,7 @@ body{
     border-radius: 9px;
 }
 
-.inputs{
+.container .inputs{
     margin-top: 55px;
     display: flex;
     flex-direction: column;
