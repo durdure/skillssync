@@ -104,7 +104,7 @@ def update_post(post_id):
 
     # Check if the current user is the author of the post
     if current_user != post.author:
-        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+        return jsonify({'status': 'error', 'message': 'You are not authorized to edit this post'}), 401
 
     data = request.get_json()
     post.title = data.get('title', post.title)
