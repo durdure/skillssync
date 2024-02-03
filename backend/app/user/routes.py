@@ -5,26 +5,30 @@ from PIL import Image
 import secrets
 from app import db
 from app.utils.decorators_1 import check_confirmed
+from sqlalchemy.exc import IntegrityError
 
 user = Blueprint('user', __name__)
 
-# @user.route('/profile', methods=['GET'], strict_slashes=False)
-@user.route('/profile', methods=['GET', 'POST'], strict_slashes=False)
-
 @login_required
-# @check_confirmed
+@user.route('/profile', methods=['GET', 'POST'], strict_slashes=False)
 def get_profile():
-    profile_data = {
-        'user_id': current_user.user_id,
-        'username': current_user.username,
-        'email': current_user.email,
-        'profile_image': current_user.profile_image,
-        'bio': current_user.bio,
-        'phone_no': current_user.phone_no,
-        'address': current_user.address
-    }
+    # Check if the user is authenticated
+    if current_user.is_authenticated:
+        # Access user attributes only if authenticated
+        profile_data = {
+            'user_id': current_user.id,
+            'username': current_user.username,
+            'email': current_user.email,
+            'profile_image': current_user.image_file,
+            'bio': current_user.bio,
+            'phone_no': current_user.phone_no,
+            'address': current_user.address
+        }
+        return jsonify(profile_data)
+    else:
+        # Handle the case where the user is not authenticated
+        return jsonify({'error': 'User not authenticated'}), 401
 
-    return jsonify(profile_data)
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
@@ -46,8 +50,8 @@ def update_profile():
     try:
         data = request.get_json()
 
-        current_user.username = data.get('username', current_user.username)
         current_user.email = data.get('email', current_user.email)
+        current_user.username = data.get('username', current_user.username)
         current_user.bio = data.get('bio', current_user.bio)
         current_user.phone_no = data.get('phone_no', current_user.phone_no)
         current_user.address = data.get('address', current_user.address)
@@ -65,6 +69,10 @@ def update_profile():
         db.session.commit()
 
         return jsonify({"message": "Profile updated successfully"})
+
+    except IntegrityError as e:
+        db.session.rollback()
+        return jsonify({"error": "Username already exists. Choose a different username."}), 400
 
     except Exception as e:
         db.session.rollback()

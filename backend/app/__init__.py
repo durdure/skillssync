@@ -1,4 +1,4 @@
-from flask import Flask, session
+from flask import Flask, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
@@ -43,7 +43,12 @@ def create_app():
 
 
     @login_manager.user_loader
-    def load_user(id):
-        return User.query.get(int(id))
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+    
+    @login_manager.unauthorized_handler
+    def unauthorized():
+        return jsonify({'error': 'Unauthorized', 'message': 'You must be logged in to access this resource'}), 401
+
     
     return app
