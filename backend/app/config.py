@@ -19,8 +19,8 @@ class Config:
     MAIL_USE_SSL = True
 
     # gmail authentication
-    MAIL_USERNAME = getenv('APP_MAIL_USERNAME')
-    MAIL_PASSWORD = getenv('APP_MAIL_PASSWORD')
+    MAIL_USERNAME = getenv('APP_MAIL_USERNAME') # set to alexapptest123@gmail.com
+    MAIL_PASSWORD = getenv('APP_MAIL_PASSWORD') # set to ediwrygacgkgobic
 
     # mail accounts
     MAIL_DEFAULT_SENDER = 'alexapptest123@gmail.com'

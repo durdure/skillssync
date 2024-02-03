@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app import db
 from flask_login import login_required, current_user
-from app.posts.models import Post, Comment
+from app.posts.models import Post
 from sqlalchemy.exc import SQLAlchemyError
 
 
