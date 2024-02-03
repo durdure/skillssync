@@ -1,6 +1,7 @@
 *{
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 .head {
   padding: 40px;
@@ -9,6 +10,8 @@
   border-radius: 10px; 
   display: flex;
   flex-direction: row;
+  /* position:absolute; */
+  max-width: 100%;
 }
 
 .head .logo{
@@ -20,7 +23,7 @@
   flex-direction: row;
   margin: 20px;
   background-color: hsl(295, 71%, 41%);
-  width: 100vw;
+  width: 100%;
   }
 .head .container .logo h1{
   font-size: 60px;

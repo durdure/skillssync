@@ -1,8 +1,13 @@
 import React from "react"
 import { blog } from "../../../dummydata"
 import "./footer.css"
-import image_ppi from "../header/one_1111-removebg-preview.png"
+
+
+
 import logof from "../header/Skillsynoc.png"
+import first from "../footer/image/first.jpg"
+import second from "../footer/image/second.jpg"
+import third from "../footer/image/third.jpg"
 
 
 const Footer = () => {
@@ -10,20 +15,15 @@ const Footer = () => {
     <>
     <div className="overAll">
       <section className='newletter'>
-        <div className="note">
-            <h1>Newsletter - Stay tune and get the latest update</h1>
-            <span>Far far away, behind the word mountains</span>
-            <div className="buttonOne">
-              <button className="Get"> Get Started</button>
-              <button className="Get"> Learn More</button>
-            </div>
-          </div>
-          <img src={image_ppi} alt="" />
+       <h1>Meet Our top Mentors</h1>
+        {/* <div className="mentors">
+         <div className="mentor">
+            <img src={first} alt="" className="one"/>
+         </div>
+         <div className="mentor"></div>
+         <div className="mentor"></div>
+        </div> */}
       </section>
-
-
-
-
 
 <footer>
 <div className='container padding'>

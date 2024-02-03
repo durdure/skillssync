@@ -2,7 +2,6 @@
   background-image: url("../../home/hero/TikTok\ ·\ 4k\ Ultra.jpg");
   background-size: auto;
   background-attachment: fixed;
-  position: absolute;
   top: 0;
   left: 0;
   z-index: -1;
@@ -10,7 +9,9 @@
   height: 100vh;
   padding-top: 20%;
   padding-right: 50px;
+  box-sizing: border-box;
   color: #fff;
+  position: absolute;
 }
 .hero #heading h3 {
   color: #fff;
