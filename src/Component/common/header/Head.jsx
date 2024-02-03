@@ -12,6 +12,9 @@ const Head = () => {
             <h1>Skillsync</h1>
             <span>Online Mentorship</span>
           </div>
+
+
+          
           <div className="flower"></div>
           <Link to='/mentee'>
           <button className="buttonThree"> <h1>SingIn/SignUp</h1></button>

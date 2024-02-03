@@ -24,6 +24,8 @@ export const awrapper = [
     title: "SCHEDULES",
   },
 ]
+
+
 export const coursesCard = [
   {
     id: 1,
@@ -226,24 +228,31 @@ export const online = [
     course: "17 Courses",
   },
 ]
-export const team = [
-  {
-    cover: "./images/team/t1.webp",
-    name: "Duresa Eshetu",
-    work: "Mining Engineer and Full-stack Engineer",
-  },
-  {
-    cover: "./images/team/t2.webp",
-    name: "Ph.D Arthur MaGregor",
-    work: "DEVELOPER AND LEAD INSTRUCTOR",
-  },
+
+
+
+// export const team = [
+//   {
+//     cover: "./images/team/Duresa.jpg",
+//     name: "Duresa Eshetu",
+//     work: "Mining Engineer and Full-stack Engineer",
+//   },
+//   {
+//     cover: "./images/team/alik.jpg",
+//     name: "Ph.D Arthur MaGregor",
+//     work: "DEVELOPER AND LEAD INSTRUCTOR",
+//   },
  
-  {
-    cover: "./images/team/t8.webp",
-    name: "Ph.D Brian Wooden",
-    work: "DEVELOPER AND LEAD INSTRUCTOR",
-  },
-]
+//   {
+//     cover: "./images/team/t8.webp",
+//     name: "Ph.D Brian Wooden",
+//     work: "DEVELOPER AND LEAD INSTRUCTOR",
+//   },
+// ]
+
+
+
+
 export const price = [
   {
     name: "BASIC PLAN",
@@ -348,6 +357,9 @@ export const blog = [
     cover: "../images/blog/b6.webp",
   },
 ]
+
+
+
 export const testimonal = [
   {
     id: 1,

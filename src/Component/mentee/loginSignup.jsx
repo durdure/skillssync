@@ -14,6 +14,7 @@ export default function LoginSignup() {
     const [action, setAction] = useState("Sign Up")
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [authenticated, setAuthenticated] = useState(false);
     const navigate = useNavigate();
     
     const handleAuthentication = async () => {
@@ -21,6 +22,7 @@ export default function LoginSignup() {
         if (action === 'Sign Up') {
           try {
               const response = await createUserWithEmailAndPassword(auth, email, password);
+              setAuthenticated(true);
               navigate("/");
           } catch(error) {
               console.log("Sorry, something went wrong. Please try again.");
@@ -31,6 +33,7 @@ export default function LoginSignup() {
               await signInWithEmailAndPassword(auth, email, password).then(
                 (user) => console.log(user)
               )
+              setAuthenticated(true);
               navigate("./profile");
           } catch(error) {
               console.log(error.message);
@@ -89,12 +92,12 @@ export default function LoginSignup() {
           </div>
         )}
         <div className="submit-container">
-          <div className={action === 'Log In' ? 'submit gray' : 'submit'} onClick={() => {action == "Sign Up" ?  handleAuthentication() : setAction("Sign Up")}}> Sign Up </div>
+          <div className={action === 'Log In' ? 'submit gray' : 'submit'} onClick={() => {action === "Sign Up" ?  handleAuthentication() : setAction("Sign Up")}}> Sign Up </div>
 
           <div
             className={action === 'Sign Up' ? 'submit gray' : 'submit'}
             onClick={() => {
-              action == "Log In" ? handleAuthentication() : setAction("Log In"); 
+              action === "Log In" ? handleAuthentication() : setAction("Log In"); 
             }}
           >
             Log In
@@ -105,4 +108,3 @@ export default function LoginSignup() {
     </div>
   );
 }
-

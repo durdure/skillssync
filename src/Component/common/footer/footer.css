@@ -1,3 +1,9 @@
+.overAll{
+  background:#f0f0f0 ;
+  box-sizing: border-box;
+}
+
+
 .newletter {
   background-color: hsl(295, 71%, 41%);
   padding: 50px 0;
@@ -7,18 +13,22 @@
   width: 100vw;
   display: flex;
   flex-direction: row;
+  position: relative;
+
 }
 
-/* .newletter .container{
+.newletter .container{
   background-color: hsl(295, 71%, 41%);
   margin-top: -210px;
   margin-right: 300px;
-} */
+
+}
 
 .newletter img{
   width: auto;
   height: auto;
   margin-left: 300px;
+  position: absolute;
 }
 
 .newletter img:hover{
@@ -33,27 +43,30 @@
   padding-left: 100px;
 }
 
-/* .newletter h1 {
+.newletter h1 {
   color: #49d8a6;
   font-size: 40px;
   font-weight: 500;
   margin-bottom: 15px;
   width: 100vw;
-} */
+} 
 
-/*
+
 .left{
   display: flex;
   flex-direction:row;
 }
+
 .newletter span{
   font-size: 25px;
 }
+
+
 .newletter .right {
   display: flex;
   justify-content: space-between;
-  /* align-items: center;*/
-
+  align-items: center;
+}
 
 .newletter .buttonOne{
   margin-left: 200px;
@@ -89,9 +102,10 @@
   background-color: #fff;
 }
 
+
 footer  .container {
   width: 100vw;
-  background-color: #fff;
+  background-color: #302b2b;
 }
 
 
@@ -164,14 +178,21 @@ footer .last i {
   font-size: 20px;
   color: #1eb2a6;
 }
+
+
 .legal {
   text-align: center;
-  padding: 50px 0;
-  color: grey;
+  padding: 50px;
+  color: #080202;
   background-color: #e9e9e9;
+  height: 20px;
 }
+
+
 .legal p {
   font-size: 15px;
+  padding: 0;
+  margin: 0;
 }
 .legal i {
   color: #1eb2a6;

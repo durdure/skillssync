@@ -9,7 +9,7 @@ body{
     margin: auto;
     margin-top: 200px;
     margin-bottom: 100px;
-    background: #fff;
+    background:linear-gradient(#EAEAEA);
     padding-bottom: 30px;
     width: 600px;
     border-radius: 5px;
@@ -54,6 +54,7 @@ body{
 
 .input img{
     margin: 0px 30px;
+    width: 25px;
 }
 
 .input input{
