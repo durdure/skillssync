@@ -35,7 +35,7 @@ def register():
 
     token = generate_confirmation_token(email)
     confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-    html = render_template('activate.html', confirm_url=confirm_url)
+    html = render_template('email/activate.html', confirm_url=confirm_url)
     subject = "Email Confirmation Link"
     send_email(email, subject, html)
 
@@ -101,7 +101,60 @@ def confirm_email(token):
 def resend_confirmation():
     token = generate_confirmation_token(current_user.email)
     confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-    html = render_template('activate.html', confirm_url=confirm_url)
+    html = render_template('email/activate.html', confirm_url=confirm_url)
     subject = "Please confirm your email"
     send_email(current_user.email, subject, html)
     return jsonify({'message' : 'A new confirmation email has been sent.'})
+
+
+@auth.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    data = request.get_json()
+
+    if not data or 'email' not in data:
+        return jsonify({"error": "Email is required"}), 400
+
+    email = data['email']
+    user = User.query.filter_by(email=email).first()
+
+    if user:
+        # Generate a unique token
+        token = generate_confirmation_token(email)
+
+        # Send reset password email
+        reset_url = url_for('auth.reset_password', token=token, _external=True)
+        template = render_template('email/reset_password.html', reset_url=reset_url)
+        send_email(user.email, 'Reset Your Password', template)
+
+        return jsonify({"message": "Check your email for a password reset link."}), 200
+    else:
+        return jsonify({"error": "Email address not found"}), 404
+
+@auth.route('/reset-password/<token>', methods=['POST'])
+def reset_password(token):
+    email = confirm_token(token)
+
+    if not email:
+        return jsonify({"error": "Invalid or expired reset password link"}), 400
+
+    user = User.query.filter_by(email=email).first()
+
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    data = request.get_json()
+
+    if not data or 'new_password' not in data or 'confirm_password' not in data:
+        return jsonify({"error": "New password and confirm password are required"}), 400
+
+    new_password = data['new_password']
+    confirm_password = data['confirm_password']
+
+    if new_password == confirm_password:
+        # Update the user's password
+        user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+        db.session.commit()
+
+        return jsonify({"message": "Password reset successfully"}), 200
+    else:
+        return jsonify({"error": "Passwords do not match"}), 400
