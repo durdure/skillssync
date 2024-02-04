@@ -3,6 +3,8 @@ from app import db
 from flask_login import login_required, current_user
 from app.posts.models import Post
 from sqlalchemy.exc import SQLAlchemyError
+from app.utils.decorators_1 import check_confirmed
+
 
 
 post = Blueprint('post', __name__)
@@ -31,6 +33,7 @@ def all_posts():
 
 @post.route("/user_posts", methods=['GET'], strict_slashes=False)
 @login_required
+@check_confirmed
 def user_posts():
     user_id = current_user.id
     user_posts = Post.query.filter_by(user_id=user_id).all()
@@ -56,6 +59,7 @@ def user_posts():
 
 @post.route("/new", methods=['POST'], strict_slashes=False)
 @login_required
+@check_confirmed
 def new_post():
     data = request.get_json()
     title = data.get('title')
@@ -99,6 +103,7 @@ def view_post(post_id):
 
 @post.route("/update/<int:post_id>", methods=['PUT'], strict_slashes=False)
 @login_required
+@check_confirmed
 def update_post(post_id):
     post = Post.query.get_or_404(post_id)
 
@@ -129,6 +134,7 @@ def update_post(post_id):
 
 @post.route("/delete/<int:post_id>", methods=['DELETE'], strict_slashes=False)
 @login_required
+@check_confirmed
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
 
