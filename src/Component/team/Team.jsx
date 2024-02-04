@@ -1,7 +1,7 @@
 import React from "react"
 import Back from "../common/back/Back"
 import "./team.css"
-import "../about/about.css"
+// import "../about/about.css"
 
 
 import dure from "./image/Duresa.jpg"
