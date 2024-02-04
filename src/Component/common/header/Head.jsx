@@ -30,7 +30,7 @@ const Head = () => {
             <span>Online Mentorship</span>
           </div>          
           <div className="flower"></div>
-          <Link to='/mentee'>
+          <Link to={login == "true"? "/main" : '/mentee'}>
           <button className="buttonThree"> <h1>{login == "true"? "yes": "else"}</h1></button>
           </Link>   
         </div>

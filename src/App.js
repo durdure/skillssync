@@ -1,5 +1,5 @@
 // App.jsx
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Component/common/header/Header";
 import About from "./Component/about/About";
@@ -13,6 +13,8 @@ import Home from "./Component/home/Home";
 // import LoginSignup from './Component/mentee/loginSignup';
 // import AboutHome from "./Component/about/AboutHome";
 import LogInSingUp from "./Component/mentee/loginSignup"
+import Main from "./Component/mainpage/main";
+
 
 
 function App() {
@@ -25,10 +27,10 @@ function App() {
            <Route path='/about' element={<About />} />
           {/* <Route path='/courses' element={<CourseHome />} /> */}
           <Route path='/Team' element={<Team />} />
-          {/* <Route path='/pricing' element={<Pricing />} /> */}
           {/* <Route path='/journal' element={<Blog />} /> */}
           <Route path='/contact' element={<Contact />} />
           <Route path='/mentee' element={<LogInSingUp />}/>
+          <Route path="/main" element={<Main/>}/>
         </Routes>
          <Footer />
       </Router>

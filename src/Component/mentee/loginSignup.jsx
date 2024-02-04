@@ -46,6 +46,11 @@ export default function LoginSignup() {
       }
     }
 
+    if (authenticated){
+      navigate('/main')
+      return null
+    }
+
   return (
     <div className="container">
 
