@@ -9,8 +9,11 @@ from sqlalchemy.exc import IntegrityError
 
 user = Blueprint('user', __name__)
 
+
+
 @login_required
 @user.route('/profile', methods=['GET', 'POST'], strict_slashes=False)
+@check_confirmed
 def get_profile():
     # Check if the user is authenticated
     if current_user.is_authenticated:
@@ -22,7 +25,8 @@ def get_profile():
             'profile_image': current_user.image_file,
             'bio': current_user.bio,
             'phone_no': current_user.phone_no,
-            'address': current_user.address
+            'address': current_user.address,
+            'confirmed': current_user.confirmed
         }
         return jsonify(profile_data)
     else:
