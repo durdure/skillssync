@@ -5,10 +5,19 @@
   text-align: left;
   padding: 0;
 }
+
+.aboutHome .left{
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  margin: 10px;
+}
 .aboutHome .left img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  padding: 10px;
+  margin: 10px;
 }
 .aboutHome .right {
   padding: 80px 50px;

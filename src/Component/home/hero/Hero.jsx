@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <>
       <section className='hero'>
-        <div className='container'>
+        {/* <div className='container'>
           <div className='row'>
             <Heading subtitle='Well Come To Skillsyncs' title='Best Online Education Expertise' />
             <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
@@ -19,7 +19,7 @@ const Hero = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
       <div className='margin'></div>
     </>

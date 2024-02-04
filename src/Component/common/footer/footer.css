@@ -3,70 +3,32 @@
   box-sizing: border-box;
 }
 
+.newletter{
+  padding: 10px;
+  text-align: center;
+}
 
-.newletter {
-  background-color: hsl(295, 71%, 41%);
-  padding:0;
-  margin: 0;
-  color: hsl(0, 78%, 66%);
-  border-radius: 10px;
-  height: 40vh;
-  width: 100%;
+.newletter .mentors{
   display: flex;
   flex-direction: row;
-  position: relative;
-
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
 }
 
-.overAll .newletter .mentors{
-  background-color: #1eb2a6;
+.newletter .mentors .mentor{
+  margin: 20px;
+  padding: 20px;
+}
+
+.mentors .mentor img{
+  border-radius: 25px;
   width: 200px;
-  height: 200px;
-}
-
-.newletter .mentors .mentor img{
-  width: 100px;
-  height: 100px;
+  height:auto;
 }
 
 
-.newletter .container{
-  background-color: hsl(295, 71%, 41%);
-  margin-right: 300px;
-}
-
-.newletter img{
-  width: auto;
-  height: auto;
-  margin-left: 300px;
-  position: absolute;
-}
-
-.newletter img:hover{
-  scale: 1.3;
-  
-}
-
-.newletter .right,
-.newletter .left {
-  padding-right:0px;
-  padding-top: 100px;
-  padding-left: 100px;
-}
-
-.newletter h1 {
-  color: #49d8a6;
-  font-size: 40px;
-  font-weight: 500;
-  margin-bottom: 15px;
-  width: 100%;
-} 
-
-
-.left{
-  display: flex;
-  flex-direction:row;
-}
 
 .newletter span{
   font-size: 25px;

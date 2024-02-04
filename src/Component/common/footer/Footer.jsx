@@ -16,13 +16,19 @@ const Footer = () => {
     <div className="overAll">
       <section className='newletter'>
        <h1>Meet Our top Mentors</h1>
-        {/* <div className="mentors">
+        <div className="mentors">
+
          <div className="mentor">
-            <img src={first} alt="" className="one"/>
+            <img src={second} alt=""/>
          </div>
-         <div className="mentor"></div>
-         <div className="mentor"></div>
-        </div> */}
+         
+         <div className="mentor">
+          <img src={second} alt="" srcset="" />
+         </div>
+         <div className="mentor">
+            <img src={second} alt=""/>
+         </div>
+        </div>
       </section>
 
 <footer>
@@ -104,7 +110,7 @@ const Footer = () => {
 </footer>
 <div className='legal'>
 <p>
-Copyright ©2022 All rights reserved | This template is made with <i className='fa fa-heart'></i> by GorkhCoder
+Copyright ©2024 All rights reserved | This template is made with <i className='fa fa-heart'></i> by GorkhCoder
 </p>
 </div>
     </div>

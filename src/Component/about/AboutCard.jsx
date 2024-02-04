@@ -2,16 +2,31 @@ import React from "react"
 import Heading from "../common/heading/Heading"
 import "./about.css"
 import { homeAbout } from "../../dummydata"
-import Awrapper from "./Awrapper"
+// import Awrapper from "./Awrapper"
 
 const AboutCard = () => {
   return (
     <>
       <section className='aboutHome'>
+
         <div className='container flexSB'>
           <div className='left row'>
+
+            <div className="infom">
             <img src='./images/about.webp' alt='' />
+            <h1>Duresa eshetu</h1>
+            </div>
+            <div className="infom">
+            <img src='./images/about.webp' alt='' />
+            <h1>Duresa eshetu</h1>
+            </div>
+            <div className="infom">
+            <img src='./images/about.webp' alt='' />
+            <h1>Duresa eshetu</h1>
+            </div>
+            
           </div>
+  
           <div className='right row'>
             <Heading subtitle='LEARN ANYTHING' title='Benefit of Become mentee or mentor' />
             <div className='items'>
@@ -31,8 +46,11 @@ const AboutCard = () => {
             </div>
           </div>
         </div>
+
+
+
       </section>
-      <Awrapper />
+      {/* <Awrapper /> */}
     </>
   )
 }
