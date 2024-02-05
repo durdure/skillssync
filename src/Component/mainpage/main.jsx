@@ -1,18 +1,19 @@
 // main.jsx
 import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
-import "./main.css"
-
+import Dashboard from './Dashboard'; // Import your Dashboard component
+import Profile from './profile/profile'; // Import your Profile component
+import "./main.css";
 
 const Main = () => {
   return (
     <>
      <div className='classOne'>
       <div className='firstone'>
-      <li>
+          <li>
             <Link to="/mainpage/dashboard">Home</Link>
           </li>
-        <li>
+          <li>
             <Link to="/mainpage/dashboard">dashboard</Link>
           </li>
           <li>
@@ -27,12 +28,11 @@ const Main = () => {
       </div>
 
       <Routes>
-        <Route path="dashboard" element={<dashboard />} />
-        <Route path="profile" element={<profile />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="profile" element={<Profile />} />
       </Routes>
     </div>
     </>
-   
   );
 };
 

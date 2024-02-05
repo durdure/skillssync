@@ -13,7 +13,7 @@ const AboutCard = () => {
     <div className="search">
       <a href="#">Search by role,industry or skill</a>
       <a href="#">
-        <button className="get_started">Search Menber</button>
+        <button className="get_started">Search Member</button>
       </a>
     </div>
 
