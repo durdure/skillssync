@@ -17,10 +17,9 @@ import Main from "./Component/mainpage/main";
 
 
 
-function App() {
+function App_Home() {
   return (
     <>
-     
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
@@ -37,4 +36,4 @@ function App() {
   );
 }
 
-export default App;
+export default App_Home;
