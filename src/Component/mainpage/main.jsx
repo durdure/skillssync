@@ -1,7 +1,7 @@
 // main.jsx
 import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
-import Dashboard from './Dashboard'; // Import your Dashboard component
+import Dashboard from './dashboard/dashboard'; // Import your Dashboard component
 import Profile from './profile/profile'; // Import your Profile component
 import "./main.css";
 

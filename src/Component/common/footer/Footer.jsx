@@ -3,9 +3,7 @@ import { blog } from "../../../dummydata"
 import "./footer.css"
 
 import logof from "../header/Skillsynoc.png"
-import first from "../footer/image/first.jpg"
-import second from "../footer/image/second.jpg"
-import third from "../footer/image/third.jpg"
+
 
 
 const Footer = () => {
@@ -13,20 +11,7 @@ const Footer = () => {
     <>
     <div className="overAll">
       <section className='newletter'>
-       <h1>Meet Our top Mentors</h1>
-        <div className="mentors">
-
-         <div className="mentor">
-            <img src={second} alt=""/>
-         </div>
-         
-         <div className="mentor">
-          <img src={second} alt="" srcset="" />
-         </div>
-         <div className="mentor">
-            <img src={second} alt=""/>
-         </div>
-        </div>
+      
       </section>
 
 <footer>
