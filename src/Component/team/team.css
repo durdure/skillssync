@@ -1,61 +1,142 @@
-.team .container{
-  /* align-items: center; */
-  justify-content: center;
-  display: flex;
-  flex-direction: row;
-  width: 70vw;
-  height: 100%;
-
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.team .container .Duresa{
-  /* padding: 10px;*/
-  margin: 10px;
-  background-color: #cad6d6;
-  text-align: center;
-  border-radius: 15px;
-  overflow: hidden;
-  transition: transfrom 0.5s ease-in-out;
+.team a{
+  text-decoration: none;
+  color: #fff;
 }
 
-
-.team .container .Duresa:hover{
-  scale: 1.2;
+section{
+  padding: 10rem 0;
+  background-color: #fff;
 }
 
-.team .container .Duresa img{
-  margin-top: 20px;
-  padding: 20px;
-  width: 200px;
-  height: 200px;
-  border-radius:50px;
-  cursor: pointer;
+.heading{
+  text-transform: uppercase;
+  font-size: 3.5rem; 
+  letter-spacing: 3px;
+  margin-left: -3px;
+  margin-bottom: 5rem;
   position: relative;
+  text-align: center;
+  color: #333;
 }
 
-
-h1{
-  font-size: 25px;
-  margin-top: 0;
-  margin-left: 10px;
-  margin-right: 10px;
-  text-shadow:3px 0 3px 0;
+.heading::after{
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 3px;
+  background-color: #ff994f;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-h3{
-  margin-left: 10px;
-  margin-right: 10px;
+.card-warpper{
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+  align-content: center;
+}
+.card{
+ width: 32rem;
+ background-color: #ebeef8;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ margin: 2rem 0;
+ box-shadow: .5rem .5rem 3rem rgba(0,0,0,0.2);
 }
 
-.team .container .Duresa .lineShow{
-  height: 15px;
-  width: 90px;
-  background: hsl(308, 70%, 38%);
-  margin-right:auto;
-  margin-top: 20px;
-  border-radius: 50px;
+.card .card-img{
+  width: 100%;
+  height: 26rem;
+  object-fit:cover ;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
 }
 
-p{
-  padding: 20px;
+.profile-img{
+  width: 15rem;
+  height: 15rem;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-top: -11rem;
+  z-index: 999;
+  border: 1rem solid #ebeef8;
+}
+
+.card h1{
+  font-size: 2.5rem;
+}
+
+.job-title{
+  color: #777;
+  font-weight: 300px;
+  font-size: 1.5rem;
+}
+
+.about{
+  font-size: 1.5rem;
+  margin: 1.5rem 0;
+  color: #333;
+  font-family: italic;
+  text-align: center;
+}
+
+.card .btn{
+  padding: 1rem 2rem;
+  background-color: #ff994f;
+  color: #eee;
+  text-transform: uppercase;
+  margin: 2rem 0;
+  border: none;
+  cursor: pointer;
+  border-radius: 2rem;
+  transition: all .5s;
+}
+
+.card .btn:hover{
+  transform:translateY(-3px);
+  box-shadow: .5rem .5rem 3rem rgba(0,0,0,0.2);
+
+}
+
+.card .btn:active{
+  transform:translateY(0);
+  box-shadow: none;
+}
+
+.social-media{
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin-top: 2rem;
+  width: 100%;
+  justify-content: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.social-media i{
+  font-size: 3rem;
+  color: #777;
+  transition: all .5s;
+}
+
+@media screen and (min-width: 700px){
+  .card-warpper{
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .card{
+    margin: 2rem;
+  }
+  
 }
