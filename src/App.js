@@ -22,7 +22,9 @@ function App() {
     <>
      
         <Header />
+        
         <Routes>
+          
           <Route path='/' element={<Home />} />
            <Route path='/about' element={<About />} />
           {/* <Route path='/courses' element={<CourseHome />} /> */}
@@ -38,3 +40,24 @@ function App() {
 }
 
 export default App;
+
+
+
+// import React from 'react'
+// import "./App.css"
+// import Navbar from "./Component/navbar/Navbar"
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// export default function App() {
+//   return (
+//     <>
+  
+//       <Navbar/>
+//       <Routes>
+//        <Route path='/' exact/>
+//       </Routes>
+  
+//     </>
+   
+//   )
+// }

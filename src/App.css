@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
 * {
   padding: 0;
   margin: 0;
@@ -7,11 +7,11 @@
 body {
   font-family: "Roboto", sans-serif;
   background-color: rgb(79, 203, 154);
-}
+} */
 
 
 /*------------global-----------*/
-.container {
+/* .container {
   max-width: 85%;
   margin: auto;
 }
@@ -64,11 +64,11 @@ button:hover {
 .primary-btn {
   background-color: #1eb2a6;
   color: #fff;
-} */
+} */ 
 
 
 
-
+/* 
 #heading {
   text-align: center;
   padding: 40px 0;
@@ -164,4 +164,9 @@ p {
     padding-top: 50%;
     height: 80vh;
   }
-}
+} */
+
+
+
+
+
