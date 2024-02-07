@@ -111,7 +111,7 @@ header ul li{
 }
 
 header ul li a {
-  color: hsl(295, 71%, 41%);
+  color: hwb(193 35% 7%);
   font-weight: 500;
   transition: 0.5s;
   text-decoration: none;

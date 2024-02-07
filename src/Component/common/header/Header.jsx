@@ -18,29 +18,18 @@ const Header = () => {
               <Link to='/'>Home</Link>
             </li>
             <li>
-              <Link to='/about'>About</Link>
+              <Link to='/about'>About Us</Link>
             </li>
             <li>
-              {/* <a href={team}>Team</a> */}
-              <a href="team">Team</a>
+             <Link to='/team'>Team</Link>
             </li>
                       <li>
               <Link to='/journal'>Journal</Link>
             </li>
             <li>
-              <Link to='/contact'>Contact</Link>
+              <Link to='/contact'>Contact Us</Link>
             </li>
           </ul>
-
-
-          {/* <div className='start'>
-            <Link to='/mentee' className='button'>
-            <button className="buttonTwo">To be Mentee</button>
-            </Link>
-              <button className="buttonTwo">To be Mentor</button>
-
-              <div className="resourse">Resourses</div>
-            </div> */}
               <button className='toggle' onClick={() => setClick(!click)}>
             {click ? <i className='fa fa-times'> </i> : <i className='fa fa-bars'></i>}
           </button>

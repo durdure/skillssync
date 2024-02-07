@@ -1,55 +1,99 @@
-import React from "react"
-import Back from "../common/back/Back"
-import "./contact.css"
+import React, { useState } from "react";
+import Back from "../common/back/Back";
+import "./contact.css";
+import arrow from "./image/arrow_forward_FILL0_wght400_GRAD0_opsz24.png";
+import message from "./image/message.png";
 
 const Contact = () => {
-  const map = 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d904726.6131739549!2d85.24565535!3d27.65273865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2snp!4v1652535615693!5m2!1sen!2snp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" '
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    formData.append("access_key", "964665b0-58c8-4fef-8b88-b09c17c93435");
+
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: json,
+    }).then((res) => res.json());
+
+    if (res.success) {
+      console.log("Success", res);
+      setSubmitSuccess(true);
+    }
+  };
+
   return (
     <>
-      <Back title='Contact us' />
-      <section className='contacts padding'>
-        <div className='container shadow flexSB'>
-          <div className='left row'>
-            <iframe src={map}></iframe>
-          </div>
-          <div className='right row'>
-            <h1>Contact us</h1>
-            <p>We're open for any suggestion or just to have a chat</p>
-
-            <div className='items grid2'>
-              <div className='box'>
-                <h4>ADDRESS:</h4>
-                <p>AASTU, addis Ababa, Ethiopia</p>
+      <section className="body">
+        <div className="contact-container">
+          {!submitSuccess ? (
+            <form onSubmit={onSubmit} className="contact-left">
+              <div className="contact-left-title">
+                <h2>Get in touch</h2>
+                <hr />
               </div>
-              <div className='box'>
-                <h4>EMAIL:</h4>
-                <p> info@Skillsync.com</p>
-              </div>
-              <div className='box'>
-                <h4>PHONE:</h4>
-                <p> + 125 993 018443</p>
-              </div>
-            </div>
-
-            <form action=''>
-              <div className='flexSB'>
-                <input type='text' placeholder='Name' />
-                <input type='email' placeholder='Email' />
-              </div>
-              <input type='text' placeholder='Subject' />
-              <textarea cols='30' rows='10'>
-                Create a message here...
-              </textarea>
-              <button className='primary-btn'>SEND MESSAGE</button>
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                className="contact-input"
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                className="contact-input"
+                required
+              />
+              <textarea
+                name="message"
+                placeholder="Your Message"
+                className="contact-input"
+                required
+              ></textarea>
+              <button type="submit">
+                Submit{" "}
+                <img
+                  src={arrow}
+                  className="icon"
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    marginLeft: "10px",
+                  }}
+                />{" "}
+              </button>
             </form>
-
-            <h3>Follow us here</h3>
-            <span>FACEBOOK TWITTER INSTAGRAM DRIBBBLE</span>
+          ) : (
+            <div className="success-message">
+              <p>Successfully Submitted!</p>
+              <a href="/">Go Back</a>
+            </div>
+          )}
+          <div className="contact-right">
+            <img
+              src={message}
+              alt=""
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
           </div>
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Contact
+export default Contact;

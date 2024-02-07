@@ -12,8 +12,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LoginSignup() {
     const [action, setAction] = useState("Sign Up")
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('duresaeshetu2001@gmail.com');
+    const [password, setPassword] = useState('DURE488e@AASTU');
     const [authenticated, setAuthenticated] = useState(false);
     const navigate = useNavigate();
     
@@ -33,6 +33,7 @@ export default function LoginSignup() {
               await signInWithEmailAndPassword(auth, email, password).then(
                 (user) => console.log(user)
               )
+              localStorage.setItem("logedin", true)
               setAuthenticated(true);
               navigate("./profile");
           } catch(error) {
@@ -43,6 +44,11 @@ export default function LoginSignup() {
       } catch (error) {
         console.error('Authentication failed', error.message);
       }
+    }
+
+    if (authenticated){
+      navigate('/main')
+      return null
     }
 
   return (

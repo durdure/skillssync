@@ -275,6 +275,7 @@ export const price = [
     desc: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.",
   },
 ]
+
 export const faq = [
   {
     title: "How to Enroll This Online Courses?",
