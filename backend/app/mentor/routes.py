@@ -4,7 +4,7 @@ import os
 from PIL import Image
 import secrets
 from app import db
-from app.utils.decorators_1 import check_confirmed
+from app.utils.decorators_1 import check_confirmed, mentor_required
 from sqlalchemy.exc import IntegrityError
 from .models import Mentor
 
@@ -57,6 +57,7 @@ def save_picture(form_picture):
 @mentor.route('/profile', methods=['PUT'], strict_slashes=False)
 @login_required
 @check_confirmed
+@mentor_required
 def update_user_profile():
     try:
         data = request.get_json()

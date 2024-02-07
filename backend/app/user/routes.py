@@ -4,7 +4,7 @@ import os
 from PIL import Image
 import secrets
 from app import db
-from app.utils.decorators_1 import check_confirmed
+from app.utils.decorators_1 import check_confirmed, mentor_restricted
 from sqlalchemy.exc import IntegrityError
 
 user = Blueprint('user', __name__)
@@ -14,6 +14,7 @@ user = Blueprint('user', __name__)
 @login_required
 @user.route('/profile', methods=['GET', 'POST'], strict_slashes=False)
 @check_confirmed
+@mentor_restricted
 def get_user_profile():
     # Check if the user is authenticated
     if current_user.is_authenticated:
@@ -49,6 +50,7 @@ def save_picture(form_picture):
 @user.route('/profile', methods=['PUT'], strict_slashes=False)
 @login_required
 @check_confirmed
+@mentor_restricted
 def update_user_profile():
     try:
         data = request.get_json()
