@@ -31,10 +31,14 @@ def create_app():
     from app.auth.models import User
     from app.auth.routes import auth
     from app.user.routes import user
+    from app.mentor.routes import mentor
     from app.posts.routes import post
+    from app.mentor.models import Mentor
+
 
     app.register_blueprint(auth, url_prefix='/auth/')
     app.register_blueprint(user, url_prefix='/user/')
+    app.register_blueprint(mentor, url_prefix='/mentor/')
     app.register_blueprint(post, url_prefix='/post/')
 
     login_manager = LoginManager()
@@ -44,6 +48,12 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
+        # Check if the user ID corresponds to a Mentor
+        mentor = Mentor.query.get(user_id)
+        if mentor:
+            return mentor
+
+        # If the user ID does not correspond to a Mentor, return a User
         return User.query.get(int(user_id))
     
     @login_manager.unauthorized_handler

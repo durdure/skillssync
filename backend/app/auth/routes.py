@@ -1,4 +1,5 @@
 from .models import User
+from app.mentor.models import Mentor
 from flask import request, Blueprint, jsonify, render_template, url_for, redirect
 from app import db, bcrypt
 from flask_login import current_user, login_user, logout_user, login_required
@@ -9,8 +10,8 @@ import datetime
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/register', methods=['POST'], strict_slashes=False)
-def register():
+@auth.route('/user/register', methods=['POST'], strict_slashes=False)
+def register_user():
 
     data = request.get_json()
 
@@ -49,6 +50,47 @@ def register():
     return jsonify({'data': response_data, 'message':'User registered successfully, check your email to verify'}), 201
 
 
+@auth.route('/mentor/register', methods=['POST'], strict_slashes=False)
+def register_mentor():
+
+    data = request.get_json()
+
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
+    confirm_pass = data.get('confirm_pass')
+    full_name = data.get("full_name")
+
+    mentor = Mentor.query.filter_by(email=email).first()
+
+    if mentor:
+        return jsonify({'error': 'A mentor with that email already exists'}), 400
+    if password != confirm_pass:
+        return jsonify({'error':'Passwords dont match!'}), 400
+    if len(password) < 7:
+        return jsonify({'error':'Password must be at least 7 characters.'}), 400
+    
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    new_mentor = Mentor(username=username, email=email, password=hashed_password, mentor=True, full_name= full_name)
+    db.session.add(new_mentor)
+    db.session.commit()
+
+    token = generate_confirmation_token(email)
+    confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+    html = render_template('email/activate.html', confirm_url=confirm_url)
+    subject = "Email Confirmation Link"
+    send_email(email, subject, html)
+
+    response_data = {
+        'id': new_mentor.id,
+        'username': new_mentor.username,
+        'email': new_mentor.email,
+        'image_file': new_mentor.image_file
+    }
+
+    return jsonify({'data': response_data, 'message':'Mentor registered successfully, check your email to verify'}), 201
+
+
 
 @auth.route('/login', methods=['POST'], strict_slashes=False)
 def login():
@@ -57,13 +99,14 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
+    # Check if the provided credentials match a user
     user = User.query.filter_by(username=username).first()
     if user and bcrypt.check_password_hash(user.password, password):
         login_user(user)
         return jsonify({'message': 'You have successfully logged in', 'user_id': user.id}), 200
-    else:
-        return jsonify({'error': 'Please check your credentials!! Try again.'}), 401
 
+    # If no matching user or mentor found, return an error
+    return jsonify({'error': 'Please check your credentials and try again.'}), 401
 
 
 @auth.route('/logout', methods=['GET'], strict_slashes=False)
