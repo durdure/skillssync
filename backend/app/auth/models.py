@@ -16,6 +16,9 @@ class User(db.Model, UserMixin):
     address = db.Column(db.String(100), nullable=True)
     registered_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     admin = db.Column(db.Boolean, nullable=False, default=False)
+    mentor = db.Column(db.Boolean, nullable=False, default=False)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
     confirmed_on = db.Column(db.DateTime, nullable=True)
     posts = db.relationship('Post', backref='author', lazy=True, cascade='all, delete-orphan')
+
+
