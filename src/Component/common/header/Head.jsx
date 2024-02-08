@@ -4,6 +4,16 @@ import { Link } from "react-router-dom"
 
 const Head = () => {
   const [login, setLogin] = useState( localStorage.getItem("logedin") || "false");
+  const handleLogout = () => {
+    if (login == "true") {
+      localStorage.setItem("logedin", false);
+      // refresh the page
+      window.location.reload();
+      setLogin("false");
+      window.location.href = "/mentee";
+    }
+  };
+
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -30,8 +40,8 @@ const Head = () => {
             <span>Online Mentorship</span>
           </div>          
           <div className="flower"></div>
-          <Link to={login == "true"? "/main" : '/mentee'}>
-          <button className="buttonThree"> <h1>{login == "true"? "yes": "else"}</h1></button>
+          <Link to={login == "true"? "/mainpage/dashboard" : '/mentee'}>
+          <button className="buttonThree" onClick={handleLogout}>  <h1>{login == "true"? "Logout": "Login"}</h1></button>
           </Link>   
         </div>
       </section>

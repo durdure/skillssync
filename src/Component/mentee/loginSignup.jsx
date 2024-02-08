@@ -35,7 +35,10 @@ export default function LoginSignup() {
               )
               localStorage.setItem("logedin", true)
               setAuthenticated(true);
-              navigate("./profile");
+              // refresh the page
+
+              window.location.reload();
+              navigate("/main");
           } catch(error) {
               console.log(error.message);
           }
