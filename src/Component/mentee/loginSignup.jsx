@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LoginSignup() {
     const [action, setAction] = useState("Sign Up")
-    const [email, setEmail] = useState('duresaeshetu2001@gmail.com');
+    const [email, setEmail] = useState()
     const [password, setPassword] = useState('DURE488e@AASTU');
     const [authenticated, setAuthenticated] = useState(false);
     const navigate = useNavigate();
@@ -98,7 +98,7 @@ export default function LoginSignup() {
           <div className="forgot-password">
             Lost Password
             <span>Click here</span>
-          </div>
+           </div>
         )}
         <div className="submit-container">
           <div className={action === 'Log In' ? 'submit gray' : 'submit'} onClick={() => {action === "Sign Up" ?  handleAuthentication() : setAction("Sign Up")}}> Sign Up </div>
