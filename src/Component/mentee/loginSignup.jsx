@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './loginSignup.css';
 
-import { auth } from "../../firebase";
+import { auth} from "../../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider } from "firebase/auth";
 
 import user_icon from '../assets/person_FILL0_wght400_GRAD0_opsz24.png';
 import email_icon from '../assets/mail_FILL0_wght400_GRAD0_opsz24.png';
@@ -12,8 +14,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LoginSignup() {
     const [action, setAction] = useState("Sign Up")
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState('DURE488e@AASTU');
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('');
     const [authenticated, setAuthenticated] = useState(false);
     const navigate = useNavigate();
     
@@ -49,6 +51,18 @@ export default function LoginSignup() {
       }
     }
 
+    const handleGoogleSignIn = async () => {
+      try {
+          const provider = new GoogleAuthProvider();
+          const response = await signInWithPopup(auth, provider);
+          localStorage.setItem("logedin", true)
+          setAuthenticated(true);
+          navigate("/main");
+      } catch (error) {
+          console.log(error.message);
+      }
+  }
+
     if (authenticated){
       navigate('/main')
       return null
@@ -66,7 +80,7 @@ export default function LoginSignup() {
         {action === 'Log In' ? null : (
           <div className="input">
             <img src={user_icon} alt="" />
-            <input type="text" placeholder="name" required />
+            <input type="text" placeholder="name" required='.com' />
           </div>
         )}
 
@@ -111,7 +125,9 @@ export default function LoginSignup() {
           >
             Log In
           </div>
-
+          <div className="google-signin" onClick={handleGoogleSignIn}>
+                        Continue with Google
+          </div>
         </div>
       </div>
     </div>
