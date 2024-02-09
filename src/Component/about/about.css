@@ -129,6 +129,7 @@
   flex: 1;
   width: 600px;
   margin: 0px 20px;
+  animation: fadeInUp 2s ease;
 }
 .heor .heading h1{
   color: #ff6347;
@@ -169,11 +170,12 @@
   flex: 1;
   width: 600px;
   margin: auto;
+  animation: fadeInRight 2s ease;
 }
 
 .heor .hero-image img{
   width: 100%;
-  height: auto;
+  height: 550px;
   border-radius: 10px;
 }
 
@@ -194,5 +196,43 @@
   .heor .hero-content{
     width: 100%;
     margin: 35px 0px;
+  }
+  .heor .hero-content h2{
+    font-size: 30px;
+  }
+  .heor .hero-content p{
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .heor .hero-content button{
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  .heor .hero-image{
+    width: 100%;
+    margin: 0px;
+  } 
+}
+
+
+@keyframes fadeInUp {
+ 0%{
+   opacity: 0;
+   transform: translateY(40px);
+ }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  0%{
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateX(0);
   }
 }
