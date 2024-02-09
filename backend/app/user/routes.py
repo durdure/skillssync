@@ -6,9 +6,32 @@ import secrets
 from app import db
 from app.utils.decorators_1 import check_confirmed, mentor_restricted
 from sqlalchemy.exc import IntegrityError
+from app.auth.models import User
+from flask_mail import Message
+from app import mail
+from app.config import Config
 
 user = Blueprint('user', __name__)
 
+
+@user.route('/contact', methods=['POST'])
+def contact():
+    data = request.get_json()
+    name = data.get('name')
+    email = data.get('email')
+    message = data.get('message')
+
+    try:
+        # Send email
+        msg = Message(subject='New Contact Us Form Submission',
+                      sender=Config.MAIL_DEFAULT_SENDER,
+                      recipients=[email])
+        msg.body = f"Name: {name}\nEmail: {email}\nMessage: {message}"
+        mail.send(msg)
+
+        return jsonify({'message': 'Your email has been sent successfully'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @login_required
@@ -82,3 +105,30 @@ def update_user_profile():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+
+
+@user.route('/view/<int:user_id>', methods=['GET'], strict_slashes=False)
+def view_user(user_id):
+    try:
+        # Query the user by ID
+        user = User.query.get(user_id)
+
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+
+        # Prepare user data to be returned in the response
+        user_data = {
+            'user_id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'profile_image': user.image_file,
+            'bio': user.bio,
+            'phone_no': user.phone_no,
+            'address': user.address
+            # Add any additional user attributes here
+        }
+
+        return jsonify({'user': user_data})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
