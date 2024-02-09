@@ -58,7 +58,7 @@ def save_picture(form_picture):
 @login_required
 @check_confirmed
 @mentor_required
-def update_user_profile():
+def update_mentor_profile():
     try:
         data = request.get_json()
 
@@ -96,3 +96,63 @@ def update_user_profile():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+
+
+@mentor.route('/all', methods=['GET'], strict_slashes=False)
+def list_mentors():
+    try:
+        # Query all mentors from the database
+        mentors = Mentor.query.all()
+
+        # Prepare mentor data to be returned in the response
+        mentor_data = []
+        for mentor in mentors:
+            mentor_info = {
+                'user_id': mentor.id,
+                'username': mentor.username,
+                'email': mentor.email,
+                'profile_image': mentor.image_file,
+                'full_name': mentor.full_name,
+                'profession': mentor.profession,
+                'job_title': mentor.job_title,
+                'company': mentor.company,
+                'skills': mentor.skills,
+                'availability': mentor.availability,
+                'languages_spoken': mentor.languages_spoken
+            }
+            mentor_data.append(mentor_info)
+
+        return jsonify({'mentors': mentor_data})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@mentor.route('/view/<int:mentor_id>', methods=['GET'], strict_slashes=False)
+def view_mentor(mentor_id):
+    try:
+        # Query the mentor by ID
+        mentor = Mentor.query.get(mentor_id)
+
+        if not mentor:
+            return jsonify({'error': 'Mentor not found'}), 404
+
+        # Prepare mentor data to be returned in the response
+        mentor_data = {
+            'user_id': mentor.id,
+            'username': mentor.username,
+            'email': mentor.email,
+            'profile_image': mentor.image_file,
+            'full_name': mentor.full_name,
+            'profession': mentor.profession,
+            'job_title': mentor.job_title,
+            'company': mentor.company,
+            'skills': mentor.skills,
+            'availability': mentor.availability,
+            'languages_spoken': mentor.languages_spoken
+        }
+
+        return jsonify({'mentor': mentor_data})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
