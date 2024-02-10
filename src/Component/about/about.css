@@ -1,13 +1,7 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-
-}
-
 .aboutUS{
   display: flex;
   flex-direction: column;
+ 
 }
 
 .aboutUS h1{
@@ -36,6 +30,7 @@
   padding: 5px;
   align-items: center;
   justify-content: center;
+  /* margin-top: 500px; */
 }
 
 
@@ -46,8 +41,9 @@
 }
 
 .titleOne{
-  color: #fff;
+  color: hsl(149, 87%, 18%);
   text-align: center;
+  margin-top: 500px;
 }
 
 

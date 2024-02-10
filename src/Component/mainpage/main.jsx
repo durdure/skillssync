@@ -5,6 +5,9 @@ import Dashboard from './dashboard/dashboard'; // Import your Dashboard componen
 import Profile from './profile/profile'; // Import your Profile component
 import "./main.css";
 
+import Home_chat from './Home_chat';
+
+
 const Main = () => {
   return (
     <>
@@ -14,10 +17,7 @@ const Main = () => {
             <Link to="/mainpage/dashboard">Home</Link>
           </li>
           <li>
-            <Link to="/mainpage/dashboard">dashboard</Link>
-          </li>
-          <li>
-            <Link to="/mainpage/dashboard">dashboard</Link>
+            <Link to="./Home_chat">chat</Link>
           </li>
           <li>
             <Link to="/mainpage/profile">Profile</Link>
