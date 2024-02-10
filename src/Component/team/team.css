@@ -1,61 +1,69 @@
-.team .container{
-  /* align-items: center; */
-  justify-content: center;
-  display: flex;
-  flex-direction: row;
-  width: 70vw;
-  height: 100%;
-
+.team-section{
+ overflow: hidden;
+ text-align: center;
+ background:#34495e;
+  padding: 60px;
 }
 
-.team .container .Duresa{
-  /* padding: 10px;*/
-  margin: 10px;
-  background-color: #cad6d6;
-  text-align: center;
-  border-radius: 15px;
+.team-section h1{
+  text-transform: uppercase;
+  margin-bottom: 60px;
+  color: #fff;
+  font-size: 40px;
+}
+
+.border{
+  display: block;
+  margin: auto;
+  width: 160px;
+  height: 3px;
+  background: #3498db;
+  margin-bottom: 40px;
+}
+
+.ps{
+  margin-bottom: 40px;
+}
+
+.ps a{
+  display: inline-block;
+  margin: 0 30px;
+  width: 150px;
+  height: 150px;
   overflow: hidden;
-  transition: transfrom 0.5s ease-in-out;
+  border-radius: 50%;
 }
 
-
-.team .container .Duresa:hover{
-  scale: 1.2;
+.ps a img{
+  width: 100%;
+  filter: grayscale(100%);
+  transition: all 0.5s;
 }
 
-.team .container .Duresa img{
-  margin-top: 20px;
-  padding: 20px;
-  width: 200px;
-  height: 200px;
-  border-radius:50px;
-  cursor: pointer;
-  position: relative;
+.ps a img:hover{
+  filter: grayscale(0);
+  filter: none;
 }
 
+.team-section .section{
+  width: 600px;
+  margin: auto;
+  color: #ddd;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: justify;
+  height: 0;
+  overflow: hidden;
+}
 
-h1{
+.team-section .section:target{
+  height: auto;
+}
+
+.name{
+  display: block;
   font-size: 25px;
-  margin-top: 0;
-  margin-left: 10px;
-  margin-right: 10px;
-  text-shadow:3px 0 3px 0;
-}
-
-h3{
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.team .container .Duresa .lineShow{
-  height: 15px;
-  width: 90px;
-  background: hsl(308, 70%, 38%);
-  margin-right:auto;
-  margin-top: 20px;
-  border-radius: 50px;
-}
-
-p{
-  padding: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+  text-transform: uppercase;
 }
