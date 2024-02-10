@@ -25,7 +25,7 @@ def contact():
         # Send email
         msg = Message(subject='New Contact Us Form Submission',
                       sender=Config.MAIL_DEFAULT_SENDER,
-                      recipients=[email])
+                      recipients=[Config.MAIL_DEFAULT_SENDER])
         msg.body = f"Name: {name}\nEmail: {email}\nMessage: {message}"
         mail.send(msg)
 
