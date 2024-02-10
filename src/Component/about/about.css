@@ -23,22 +23,81 @@
  margin-left: 800px; 
 }
 
-.mentors{
+#team{
+  font-family: 'Poppins', sans-serif;
   display: flex;
-  flex-direction: row;
-  margin: 5px;
-  padding: 5px;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  /* margin-top: 500px; */
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background: black;
+  margin-top: 380px;
+}
+
+a{
+  text-decoration: none;
+}
+
+.team-heading{
+  color: #ffffff;
+  font-size: 3rem;
+  text-transform: lowercase;
+}
+
+.team-box{
+  width: 100%;
+  max-width: 300px;
+  padding: 20px;
+  user-select: none;
+  border: 10px solid #0617ff;
+}
+
+.b-t-image{
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 10px;
+  position: relative;
+ }
+
+.b-t-image::after{
+ content: '';
+ position: absolute;
+ left: 0;
+ bottom: 0;
+ width: 100%;
+ height: 150px;
+ background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0)100%);
+}
+
+.b-t-image img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  filter: grayscale(1);
+}
+
+.b-t-text{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.b-t-text strong{
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.b-t-text span{
+  color: #919191;
+  font-size: 1rem;
 }
 
 
 
-.mentors .mentor{
-  margin: 10px;
-  padding: 10px;
-}
 
 .titleOne{
   color: hsl(149, 87%, 18%);

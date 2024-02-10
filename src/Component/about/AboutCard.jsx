@@ -2,7 +2,7 @@ import React from "react"
 import "./about.css"
 import { homeAbout } from "../../dummydata"
 
-import second from "./second.jpg"
+import second from "./teacher1-removebg-preview.png"
 
 
 const AboutCard = () => {
@@ -22,20 +22,27 @@ const AboutCard = () => {
     </div>
 
 
-    <h1 className="titleOne">Meet Our top Mentors</h1>
-    <div className="mentors">
-
-         <div className="mentor">
-            <img src={second} alt=""/>
-         </div>
-         
-         <div className="mentor">
-          <img src={second} alt="" srcset="" />
-         </div>
-         <div className="mentor">
-            <img src={second} alt=""/>
-         </div>
+    <section id="team">
+      <div className="team-heading">
+        <h3>Our Top Mentor</h3>
+      </div>
+      <div className="team-box">
+        <div className="b-t-image">
+          <img src={second} alt=""
+          style={
+            {
+              width:"500px",
+              marginTop:"30px"
+            }
+          }
+          />
         </div>
+        <div className="b-t-text">
+          <strong>Julia William</strong>
+          <span>AI Engineer</span>
+        </div>
+      </div>
+    </section>
     </>
   )
 }
