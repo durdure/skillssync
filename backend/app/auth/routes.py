@@ -1,6 +1,6 @@
 from .models import User
 from app.mentor.models import Mentor
-from flask import request, Blueprint, jsonify, render_template, url_for, redirect
+from flask import request, Blueprint, flash, render_template, url_for, redirect, jsonify
 from app import db, bcrypt
 from flask_login import current_user, login_user, logout_user, login_required
 from app.utils.email import send_email
@@ -10,10 +10,10 @@ import datetime
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/user/register', methods=['POST'], strict_slashes=False)
+@auth.route('/user/register', methods=['GET','POST'], strict_slashes=False)
 def register_user():
 
-    data = request.get_json()
+    data = request.form
 
     username = data.get('username')
     email = data.get('email')
@@ -22,38 +22,36 @@ def register_user():
 
     user = User.query.filter_by(email=email).first()
 
-    if user:
-        return jsonify({'error': 'A user with that email already exists'}), 400
-    if password != confirm_pass:
-        return jsonify({'error':'Passwords dont match!'}), 400
-    if len(password) < 7:
-        return jsonify({'error':'Password must be at least 7 characters.'}), 400
+    if request.method == 'POST':
+        if user:
+            flash('A user with that email already exists.', 'danger')
+        elif password != confirm_pass:
+            flash('Paswords dont match!', 'danger')
+        elif len(password) < 7:
+            flash('Password must be at least 7 characters.', 'danger')
+        else:
+            hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+            new_user = User(username=username, email=email, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+
+            token = generate_confirmation_token(email)
+            confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+            html = render_template('email/activate.html', confirm_url=confirm_url)
+            subject = "Email Confirmation Link"
+            send_email(email, subject, html)
+
+            flash('Your Account has been created successfully!! Check your email to verify.', 'success')
+            return redirect(url_for('auth.login'))
+        
+    return render_template('auth/signup_user.html', title='Sign up', user=current_user)
     
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-    new_user = User(username=username, email=email, password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
-
-    token = generate_confirmation_token(email)
-    confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-    html = render_template('email/activate.html', confirm_url=confirm_url)
-    subject = "Email Confirmation Link"
-    send_email(email, subject, html)
-
-    response_data = {
-        'id': new_user.id,
-        'username': new_user.username,
-        'email': new_user.email,
-        'image_file': new_user.image_file
-    }
-
-    return jsonify({'data': response_data, 'message':'User registered successfully, check your email to verify'}), 201
 
 
-@auth.route('/mentor/register', methods=['POST'], strict_slashes=False)
+@auth.route('/mentor/register', methods=['POST', 'GET'], strict_slashes=False)
 def register_mentor():
 
-    data = request.get_json()
+    data = request.form
 
     username = data.get('username')
     email = data.get('email')
@@ -63,61 +61,75 @@ def register_mentor():
 
     mentor = Mentor.query.filter_by(email=email).first()
 
-    if mentor:
-        return jsonify({'error': 'A mentor with that email already exists'}), 400
-    if password != confirm_pass:
-        return jsonify({'error':'Passwords dont match!'}), 400
-    if len(password) < 7:
-        return jsonify({'error':'Password must be at least 7 characters.'}), 400
-    
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-    new_mentor = Mentor(username=username, email=email, password=hashed_password, mentor=True, full_name= full_name)
-    db.session.add(new_mentor)
-    db.session.commit()
+    if request.method  == 'POST':
+        if mentor:
+            flash('A mentor with that email already exists', 'danger')
+        elif password != confirm_pass:
+            flash('Passwords dont match!', 'danger')
+        elif len(password) < 7:
+            flash('Password must be at least 7 characters.', 'danger')
+        else:
+            hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+            new_mentor = Mentor(username=username, email=email, password=hashed_password, mentor=True, full_name= full_name)
+            db.session.add(new_mentor)
+            db.session.commit()
 
-    token = generate_confirmation_token(email)
-    confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-    html = render_template('email/activate.html', confirm_url=confirm_url)
-    subject = "Email Confirmation Link"
-    send_email(email, subject, html)
+            token = generate_confirmation_token(email)
+            confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+            html = render_template('email/activate.html', confirm_url=confirm_url)
+            subject = "Email Confirmation Link"
+            send_email(email, subject, html)
 
-    response_data = {
-        'id': new_mentor.id,
-        'username': new_mentor.username,
-        'email': new_mentor.email,
-        'image_file': new_mentor.image_file
-    }
+            flash('Your Account has been created successfully!! Check your email to verify.', 'success')
+            return redirect(url_for('auth.login'))
 
-    return jsonify({'data': response_data, 'message':'Mentor registered successfully, check your email to verify'}), 201
+
+    return render_template('auth/signup_mentor.html', title='Sign up', user=current_user)
 
 
 
-@auth.route('/login', methods=['POST'], strict_slashes=False)
+@auth.route('/login', methods=['POST', 'GET'], strict_slashes=False)
 def login():
-    data = request.get_json()
+    if current_user.is_authenticated:
+        flash('You are already logged in!', 'success')
+        if current_user.mentor:
+            return redirect(url_for('mentor.update_mentor_profile'))
+        else:
+            return redirect(url_for('user.update_user_profile'))
 
-    username = data.get('username')
-    password = data.get('password')
+    if request.method == 'POST':
+        data = request.form
+        username = data.get('username')
+        password = data.get('password')
 
-    # Check if the provided credentials match a user
-    user = User.query.filter_by(username=username).first()
-    if user and bcrypt.check_password_hash(user.password, password):
-        login_user(user)
-        return jsonify({'message': 'You have successfully logged in', 'user_id': user.id}), 200
+        # Check if the provided credentials match a user
+        user = User.query.filter_by(username=username).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            flash('You have logged in successfully!', 'success')
+            login_user(user)
+            if user.mentor:
+                next_page = request.args.get('next')
+                return redirect(next_page) if next_page else redirect(url_for('mentor.update_mentor_profile'))
+            else:
+                next_page = request.args.get('next')
+                return redirect(next_page) if next_page else redirect(url_for('user.update_user_profile'))
+        else:
+            flash('Please check your username and password!', 'danger')
 
-    # If no matching user or mentor found, return an error
-    return jsonify({'error': 'Please check your credentials and try again.'}), 401
+    return render_template('auth/login.html', title='Log In', user=current_user)
+
+
+
+
+
 
 
 @auth.route('/logout', methods=['GET'], strict_slashes=False)
 @login_required
 def logout():
-    if current_user.is_authenticated:
-        logout_user()
-        return jsonify({'message': 'Logout successful'}), 200
-    else:
-        return jsonify({'error': 'User has not logged in'}), 401
-
+    logout_user()
+    flash('You have successfully logged out of Skillsync', 'success')
+    return redirect(url_for('auth.login'))
 
 
 @auth.route('/confirm/<token>')

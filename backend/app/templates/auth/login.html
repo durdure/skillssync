@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+    /* Custom styles */
+    .login-form {
+      background-color: #fff; /* White background */
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    }
+  </style>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 login-container">
+        <h2 class="text-center mb-4" style="color: #000080;">Login</h2>
+        <form class="login-form" method="POST">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+          </div>
+          <div class="form-group">
+            <a href="#" class="float-right">Forgot Password?</a>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block mt-3">Login</button>
+        </form>
+        <div class="text-center mt-4">
+          <p>Don't have an account? <a href="{{url_for('auth.register_user')}}">Register here</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}
