@@ -689,11 +689,12 @@ section {
   margin-bottom: 20px;
   background: #fff;
   border: 1px solid #eef0ef;
+  min-width: 350px;
 }
 
 .trainers .member img {
   margin: -1px -1px 30px -1px;
-  max-height: 200px;
+  /* max-height: 200px; */
 }
 
 .trainers .member .member-content {

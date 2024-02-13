@@ -41,8 +41,7 @@ def register_user():
             subject = "Email Confirmation Link"
             send_email(email, subject, html)
 
-            flash('Your Account has been created successfully!! Check your email to verify.', 'success')
-            return redirect(url_for('auth.login'))
+            return render_template('error/confirm_account.html', user=current_user)
         
     return render_template('auth/signup_user.html', title='Sign up', user=current_user)
     
@@ -80,8 +79,7 @@ def register_mentor():
             subject = "Email Confirmation Link"
             send_email(email, subject, html)
 
-            flash('Your Account has been created successfully!! Check your email to verify.', 'success')
-            return redirect(url_for('auth.login'))
+            return render_template('error/confirm_account.html', user=current_user)
 
 
     return render_template('auth/signup_mentor.html', title='Sign up', user=current_user)
@@ -90,13 +88,6 @@ def register_mentor():
 
 @auth.route('/login', methods=['POST', 'GET'], strict_slashes=False)
 def login():
-    if current_user.is_authenticated:
-        flash('You are already logged in!', 'success')
-        if current_user.mentor:
-            return redirect(url_for('mentor.update_mentor_profile'))
-        else:
-            return redirect(url_for('user.update_user_profile'))
-
     if request.method == 'POST':
         data = request.form
         username = data.get('username')
@@ -109,7 +100,10 @@ def login():
             login_user(user)
             if user.mentor:
                 next_page = request.args.get('next')
-                return redirect(next_page) if next_page else redirect(url_for('mentor.update_mentor_profile'))
+                if user.confirmed:
+                    return redirect(next_page) if next_page else redirect(url_for('mentor.mentor_dashboard'))
+                else:
+                    return redirect(next_page) if next_page else redirect(url_for('mentor.update_mentor_profile'))
             else:
                 next_page = request.args.get('next')
                 return redirect(next_page) if next_page else redirect(url_for('user.update_user_profile'))
@@ -133,21 +127,23 @@ def logout():
 
 
 @auth.route('/confirm/<token>')
-@login_required
 def confirm_email(token):
     try:
         email = confirm_token(token)
     except:
-        return jsonify({'error' : 'The confirmation link is invalid or has expired'}), 401
+        flash('The confirmation link is invalid or has expired', 'success')
+        return redirect(url_for('auth.login'))
     user = User.query.filter_by(email=email).first_or_404()
     if user.confirmed:
-        return jsonify({'message' : 'Account already confirmed. Please login.'}), 200
+        flash('Account already confirmed. Please login.', 'success')
+        return redirect(url_for('auth.login'))
     else:
         user.confirmed = True
         user.confirmed_on = datetime.datetime.now()
         db.session.add(user)
         db.session.commit()
-        return jsonify({'message' : 'You have confirmed your account. Thanks!'}), 200
+        flash('You have confirmed your account. Thanks!', 'success')
+        return redirect(url_for('auth.login'))
 
 
 
@@ -159,57 +155,65 @@ def resend_confirmation():
     html = render_template('email/activate.html', confirm_url=confirm_url)
     subject = "Please confirm your email"
     send_email(current_user.email, subject, html)
-    return jsonify({'message' : 'A new confirmation email has been sent.'})
+    flash('A new confirmation email has been sent.', 'success')
+    return redirect(url_for('auth.login'))
 
 
-@auth.route('/forgot-password', methods=['POST'])
+@auth.route('/forgot-password', methods=['POST', 'GET'])
 def forgot_password():
-    data = request.get_json()
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = User.query.filter_by(email=email).first()
+        
+        if user:
+            # Generate a unique token
+            token = generate_confirmation_token(email)
 
-    if not data or 'email' not in data:
-        return jsonify({"error": "Email is required"}), 400
+            # Send reset password email
+            reset_url = url_for('auth.reset_password', token=token, _external=True)
+            template = render_template('email/reset_password.html', reset_url=reset_url)
+            send_email(user.email, 'Reset Your Password', template)
 
-    email = data['email']
-    user = User.query.filter_by(email=email).first()
-
-    if user:
-        # Generate a unique token
-        token = generate_confirmation_token(email)
-
-        # Send reset password email
-        reset_url = url_for('auth.reset_password', token=token, _external=True)
-        template = render_template('email/reset_password.html', reset_url=reset_url)
-        send_email(user.email, 'Reset Your Password', template)
-
-        return jsonify({"message": "Check your email for a password reset link."}), 200
+            flash('If your email exists in our database, a password reset link will be sent to your email.', 'success')
+            return redirect(url_for('auth.forgot_password'))
+        else:
+            flash('If your email exists in our database, a password reset link will be sent to your email.', 'success')
+            return redirect(url_for('auth.forgot_password'))
     else:
-        return jsonify({"error": "Email address not found"}), 404
+        return render_template('auth/forgot_password.html', user=current_user)
 
-@auth.route('/reset-password/<token>', methods=['POST'])
+    
+
+@auth.route('/reset-password/<token>', methods=['POST', 'GET'])
 def reset_password(token):
-    email = confirm_token(token)
+    if request.method == 'POST':
+        # Confirm the validity of the token
+        email = confirm_token(token)
 
-    if not email:
-        return jsonify({"error": "Invalid or expired reset password link"}), 400
+        if not email:
+            flash('Invalid or expired reset password link', 'danger')
+            return redirect(url_for('auth.login'))
 
-    user = User.query.filter_by(email=email).first()
+        # Find the user by email
+        user = User.query.filter_by(email=email).first()
 
-    if not user:
-        return jsonify({"error": "User not found"}), 404
+        if not user:
+            flash('User not found', 'danger')
+            return redirect(url_for('auth.login'))
 
-    data = request.get_json()
+        # Get data from the form
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
 
-    if not data or 'new_password' not in data or 'confirm_password' not in data:
-        return jsonify({"error": "New password and confirm password are required"}), 400
-
-    new_password = data['new_password']
-    confirm_password = data['confirm_password']
-
-    if new_password == confirm_password:
-        # Update the user's password
-        user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
-        db.session.commit()
-
-        return jsonify({"message": "Password reset successfully"}), 200
+        # Check if passwords match
+        if new_password == confirm_password:
+            # Update the user's password
+            user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+            db.session.commit()
+            flash('Password reset successfully', 'success')
+            return redirect(url_for('auth.login'))
+        else:
+            flash('Passwords do not match', 'danger')
+            return redirect(url_for('auth.reset_password', token=token))
     else:
-        return jsonify({"error": "Passwords do not match"}), 400
+        return render_template('auth/reset_password.html', user=current_user)

@@ -7,6 +7,7 @@ from app import db
 from app.utils.decorators_1 import check_confirmed, mentor_required
 from sqlalchemy.exc import IntegrityError
 from .models import Mentor
+from datetime import datetime
 
 mentor = Blueprint('mentor', __name__)
 
@@ -16,7 +17,7 @@ def save_picture(form_picture):
     picture_fn = random_hex + f_ext
     picture_path = os.path.join(current_app.root_path, 'static/profile_images', picture_fn)
 
-    output_size = (125, 125)
+    output_size = (250, 250)
     i = Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_path)
@@ -26,7 +27,6 @@ def save_picture(form_picture):
 
 @mentor.route('/profile', methods=['GET', 'POST'], strict_slashes=False)
 @login_required
-@check_confirmed
 @mentor_required
 def update_mentor_profile():
     if request.method == 'POST':
@@ -49,17 +49,15 @@ def update_mentor_profile():
             # Handle image upload
             if 'profile_image' in request.files:
                 profile_image = request.files['profile_image']
-                if profile_image:
+                if profile_image.filename != '':
                     picture_fn = save_picture(profile_image)
-                    # Delete previous image if needed
-                    # You may want to implement a function for this
-                    # delete_previous_image(current_user.profile_image)
-                    current_user.profile_image = picture_fn
+                    current_user.image_file = picture_fn
+
 
             db.session.commit()
 
             flash('Profile updated successfully', 'success')
-
+            return redirect(url_for('mentor.update_mentor_profile'))
         except IntegrityError as e:
             db.session.rollback()
             flash('Username already exists. Choose a different username')
@@ -87,7 +85,8 @@ def update_mentor_profile():
             'languages_spoken': current_user.languages_spoken
         }
         # Render HTML template for updating mentor profile, passing mentor data
-        return render_template('mentor/account.html', mentor=mentor_data)
+        return render_template('mentor/account.html', mentor=mentor_data, user=current_user)
+
 
 
 @mentor.route('/all', methods=['GET'], strict_slashes=False)
@@ -115,7 +114,7 @@ def list_mentors():
             }
             mentor_data.append(mentor_info)
 
-        return render_template('mentors.html', mentors=mentor_data)
+        return render_template('mentors.html', mentors=mentor_data, user=current_user)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -137,14 +136,25 @@ def view_mentor(mentor_id):
             'profile_image': mentor.image_file,
             'full_name': mentor.full_name,
             'profession': mentor.profession,
-            'job_title': mentor.job_title,
             'company': mentor.company,
             'skills': mentor.skills,
             'availability': mentor.availability,
-            'languages_spoken': mentor.languages_spoken
+            'languages_spoken': mentor.languages_spoken,
+            'bio': mentor.bio,
+            'phone_no': mentor.phone_no,
+            'address' :mentor.address
         }
 
-        return jsonify({'mentor': mentor_data})
+        return render_template('mentor/view_mentor.html', user=current_user, mentor=mentor_data)
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@login_required
+@mentor.route('/dashboard')
+@check_confirmed
+def mentor_dashboard():
+    current_datetime = datetime.now()
+    formatted_datetime = current_datetime.strftime('%I:%M %p %b %d')
+    return render_template('mentor/mentor_dashboard.html', user=current_user, date=formatted_datetime)

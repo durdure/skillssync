@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, flash, current_app, render_template
+from flask import Blueprint, jsonify, request, flash, current_app, render_template, redirect, url_for
 from flask_login import login_required, current_user
 import os
 from PIL import Image
@@ -36,7 +36,6 @@ def contact():
 
 @login_required
 @user.route('/profile', methods=['GET', 'POST'], strict_slashes=False)
-@check_confirmed
 @mentor_restricted
 def update_user_profile():
     if request.method == 'POST':
@@ -52,16 +51,16 @@ def update_user_profile():
             # Handle image upload
             if 'profile_image' in request.files:
                 profile_image = request.files['profile_image']
-                if profile_image:
+                if profile_image.filename != '':
                     picture_fn = save_picture(profile_image)
-                    # Delete previous image if needed
-                    # You may want to implement a function for this
-                    # delete_previous_image(current_user.profile_image)
-                    current_user.profile_image = picture_fn
+                    current_user.image_file = picture_fn
 
             db.session.commit()
 
             flash('Profile updated successfully', 'success')
+
+            # Redirect to the same page after processing the POST request
+            return redirect(url_for('user.update_user_profile'))
 
         except IntegrityError as e:
             db.session.rollback()
@@ -83,7 +82,10 @@ def update_user_profile():
             'address': current_user.address,
         }
         # Render HTML template for updating user profile, passing user data
-        return render_template('user/account.html', user=user_data)
+        return render_template('user/account.html', user_data=user_data, user=current_user)
+
+    # In case the request method is neither GET nor POST, return a default response
+    return "Method not allowed", 405
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
@@ -91,7 +93,7 @@ def save_picture(form_picture):
     picture_fn = random_hex + f_ext
     picture_path = os.path.join(current_app.root_path, 'static/profile_images', picture_fn)
 
-    output_size = (125, 125)
+    output_size = (250, 250)
     i = Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_path)
