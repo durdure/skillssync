@@ -48,11 +48,18 @@
           <li><a class="active" href="{{url_for('test.index')}}">Home</a></li>
           <li><a href="{{url_for('test.about')}}">About</a></li>
           <li><a href="{{url_for('mentor.list_mentors')}}">Mentors</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="#">Dashboard</a></li>
+          {% endif %}
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
-
+      
+      {% if user.is_authenticated %}
+      <a href="{{url_for('auth.logout')}}" class="get-started-btn">Log out</a>
+      {% else %}
       <a href="{{url_for('auth.login')}}" class="get-started-btn">Sign in</a>
+      {% endif %}
 
     </div>
   </header><!-- End Header -->

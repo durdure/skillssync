@@ -3,6 +3,14 @@
 {% block content %}
 
 <main id="main">
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs" data-aos="fade-in">
+      <div class="container">
+        <h2>About Us</h2>
+        Are you seeking guidance, inspiration, or simply a friendly ear to listen to your ideas? Look no further! Welcome to our vibrant mentor page, where a community of experienced professionals awaits to support you on your journey.
+      </div>
+    </div><!-- End Breadcrumbs -->
+
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
         <div class="container" data-aos="fade-up">
@@ -95,25 +103,31 @@
                 <h2>Testimonials</h2>
                 <p>What Our Users Say</p>
             </div>
-            <div class="testimonials-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="testimonial-wrap">
-                            <div class="testimonial-item">
-                                <img src="public\images\testo\t1.webp" class="testimonial-img" alt="Testimonial 1">
-                                <h3>Saul Goodman</h3>
-                                <h4>CEO &amp; Founder</h4>
-                                <p>
-                                    "Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et."
-                                </p>
-                            </div>
-                        </div>
-                    </div><!-- End testimonial item -->
-                    <!-- More testimonials if needed -->
+
+        {% for post in posts %}
+        <div class="testimonials-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
+          <div class="swiper-wrapper">
+              
+            <div class="swiper-slide">
+              <div class="testimonial-wrap">
+                <div class="testimonial-item">
+                  <img src="{{url_for('static', filename='profile_images/' + post.author.image_file)}}" class="testimonial-img" alt="">
+                  <h3>{{post.author.username}}</h3>
+                  <h4>{{post.title}}</h4>
+                  <p>
+                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                    {{post.content}}
+                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                  </p>
                 </div>
-                <div class="swiper-pagination"></div>
-            </div>
+              </div>
+            </div><!-- End testimonial item -->
+            {% endfor %}
+          </div>
+          <div class="swiper-pagination"></div>
         </div>
+
+      </div>
     </section><!-- End Testimonials Section -->
 </main>
 

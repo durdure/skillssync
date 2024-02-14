@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+    .confirm_container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+    .confirm_container span {
+        line-height: 2; /* Adjust the value as needed to increase the line spacing */
+    }
+</style>
+
+<div class="confirm_container container">
+    <img src="{{url_for('static', filename='img/tick.jpeg')}}" alt="">
+    <span>HEY THERE,</span>
+    <span>YOUR ACCOUNT HAS BEEN CREATED BUT STILL NOT VERIFIED THE EMAIL</span>
+    <span>Please, verify it by clicking the activation link that has been sent to your email.</span>
+    <span>If the email doesn't appear shortly, please be sure to check your spam</span>
+    <a href="{{url_for('auth.resend_confirmation')}}" type="button" class="get-started-btn mt-3">Send mail</a>
+</div>
+
+{% endblock %}
