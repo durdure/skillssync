@@ -8,7 +8,7 @@
         <div class="container" data-aos="fade-up">
             <div class="row">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
-                    <img src="https://www.freepik.com/free-photo/entrepreneur-using-online-video-call-talk-woman-laptop-project-planning-business-man-meeting-with-person-remote-video-conference-having-conversation-about-strategy_23485313.htm#query=online%20mentorship&position=0&from_view=search&track=ais&uuid=627a2662-ba97-449f-b556-38d1e6a86250" class="img-fluid" alt="About Us Image">
+                    <img src="{{url_for('static', filename='img/about.jpg')}}" class="img-fluid" alt="About Us Image">
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0" data-aos="fade-left" data-aos-delay="200">
                     <div class="section-title">
@@ -88,7 +88,7 @@
         </div>
     </section><!-- End Counts Section -->
 
-    <!-- ======= Testimonials Section ======= -->
+        <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">
         <div class="container" data-aos="fade-up">
             <div class="section-title">
@@ -96,31 +96,33 @@
                 <p>What Our Users Say</p>
             </div>
 
-        {% for post in posts %}
-        <div class="testimonials-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
-          <div class="swiper-wrapper">
-              
-            <div class="swiper-slide">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <img src="{{url_for('static', filename='profile_images/' + post.author.image_file)}}" class="testimonial-img" alt="">
-                  <h3>{{post.author.username}}</h3>
-                  <h4>{{post.title}}</h4>
-                  <p>
-                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                    {{post.content}}
-                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                  </p>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
-            {% endfor %}
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
+            <div class="testimonials-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
+                <div class="swiper-wrapper">
 
-      </div>
+                    {% for post in posts %}
+                    <div class="swiper-slide">
+                        <div class="testimonial-wrap">
+                            <div class="testimonial-item">
+                                <img src="{{url_for('static', filename='profile_images/' + post.author.image_file)}}" class="testimonial-img" alt="">
+                                <h3>{{post.author.username}}</h3>
+                                <h4>{{post.title}}</h4>
+                                <p>
+                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                    {{post.content}}
+                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+                    {% endfor %}
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
     </section><!-- End Testimonials Section -->
+
+
 </main>
 
 {% endblock %}

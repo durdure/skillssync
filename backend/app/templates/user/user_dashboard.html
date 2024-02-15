@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<style>
+    .container {
+        width: 80%;
+        margin: auto;
+    }
+
+    .user_dashboard {
+        background-color: rgb(244, 247, 250);
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 7em;
+    }
+
+    .dashboard_header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .header_left {
+        display: flex;
+        align-items: center;
+    }
+
+    .header_left h3 {
+        margin-right: 10px;
+    }
+
+    .session_request,
+    .session {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .action_buttons button {
+        margin-right: 5px;
+    }
+
+    .session_form label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .session_form input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .account_settings_link {
+        text-decoration: none;
+        color: blue;
+    }
+
+    hr {
+        border-width: 2px;
+        color: black;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container" style="margin-top: 6em;">
+    <h2 class="mt-3">Dashboard</h2>
+    <div class="user_dashboard">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <h3>{{user.username}}</h3>
+                <h5>{{ date }}</h5>
+            </div>
+            <div class="col-md-6 text-md-right">
+                <a href="{{url_for('user.update_user_profile')}}" class="btn btn-primary">Account Settings</a>
+            </div>
+        </div>
+
+            <!-- Pending Requests -->
+        <div class="session_requests mb-4">
+            <h4>Pending Requests</h4>
+            <!-- Session requests list goes here -->
+            {% if pending_requests %}
+                {% for request in pending_requests %}
+                <div style="display: flex; justify-content: space-between; align-items: center;" class="session_request">
+                    <span>You requested a session to {{ request.mentor.full_name }} on {{ request.date }}</span>
+                    <a href="{{ url_for('user.cancel_request', request_id=request.id) }}" class="btn btn-danger">Cancel Request</a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="session_request">No pending requests</div>
+            {% endif %}
+        </div>
+
+
+        <!-- Session History -->
+        <div class="session_history mb-4">
+            <h4>Request History</h4>
+            <div style="max-height: 250px; overflow-y: auto;">
+                <!-- Session history list goes here -->
+                {% if sessions_requests %}
+                    {% for request in sessions_requests %}
+                        <div style="display: flex; justify-content: space-between; align-items: center;" class="session">
+                            <span class="mentor_name" style="margin-right: 10px;">Mentor Name: {{request.mentor.full_name}}</span>
+                            <span class="session_date" style="margin-right: 10px;">Requested on {{ request.date }}</span>
+                            <span class="session_status" style="margin-right: 10px;">Status: {{request.status}}</span>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                        <div class="session_request">No requests</div>
+                {% endif %}
+            </div>
+        </div>
+
+            <hr>
+        <!-- Communication -->
+        <div class="communication">
+            <form action="" method="POST">
+                <h4>Give a testimony</h4>
+                <div class="form-group">
+                    <label for="username">Title</label>
+                    <input type="text" class="form-control" id="Title" placeholder="Current Job Title" name="title">
+                  </div>
+                <label for="">Message</label>
+                <textarea class="form-control mb-3" rows="3" placeholder="Give us your testimony..." name="content"></textarea>
+                <button class="btn btn-primary" class="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

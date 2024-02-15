@@ -8,6 +8,8 @@ from app.utils.decorators_1 import check_confirmed, mentor_required
 from sqlalchemy.exc import IntegrityError
 from .models import Mentor
 from datetime import datetime
+from app.session.models import Request
+
 
 mentor = Blueprint('mentor', __name__)
 
@@ -157,4 +159,33 @@ def view_mentor(mentor_id):
 def mentor_dashboard():
     current_datetime = datetime.now()
     formatted_datetime = current_datetime.strftime('%I:%M %p %b %d')
-    return render_template('mentor/mentor_dashboard.html', user=current_user, date=formatted_datetime)
+
+    mentor_id = current_user.id
+    pending_requests = Request.query.filter_by(mentor_id=mentor_id, status='Pending').all()
+    approved_requests = Request.query.filter_by(mentor_id=mentor_id, status='Approved').all()
+    return render_template('mentor/mentor_dashboard.html', pending_requests=pending_requests,
+                            user=current_user, date=formatted_datetime, approved_requests=approved_requests)
+
+
+@mentor.route('/approve_request/<int:request_id>')
+@login_required
+def approve_request(request_id):
+    session_request = Request.query.get(request_id)
+
+    if session_request:
+        session_request.status = 'Approved'
+        session_request.date = datetime.now()
+        db.session.commit()
+        flash('Request has been approved', 'success')
+    return redirect(url_for('mentor.mentor_dashboard'))
+
+@mentor.route('/decline_request/<int:request_id>')
+@login_required
+def decline_request(request_id):
+    session_request = Request.query.get(request_id)
+    if session_request:
+        session_request.status = 'Declined'
+        session_request.date = datetime.now()
+        db.session.commit()
+        flash('Request has been declined', 'success')
+    return redirect(url_for('mentor.mentor_dashboard'))

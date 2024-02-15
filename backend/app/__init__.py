@@ -32,17 +32,19 @@ def create_app():
     from app.auth.routes import auth
     from app.user.routes import user
     from app.mentor.routes import mentor
-    from app.posts.routes import post
+    # from app.posts.routes import post
     from app.mentor.models import Mentor
     from app.routes import test
+    from app.session.routes import session
 
 
 
     app.register_blueprint(auth, url_prefix='/auth/')
     app.register_blueprint(user, url_prefix='/user/')
     app.register_blueprint(mentor, url_prefix='/mentor/')
-    app.register_blueprint(post, url_prefix='/post/')
+    # app.register_blueprint(post, url_prefix='/post/')
     app.register_blueprint(test)
+    app.register_blueprint(session, url_prefix='/session/')
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

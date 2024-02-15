@@ -106,7 +106,10 @@ def login():
                     return redirect(next_page) if next_page else redirect(url_for('mentor.update_mentor_profile'))
             else:
                 next_page = request.args.get('next')
-                return redirect(next_page) if next_page else redirect(url_for('user.update_user_profile'))
+                if user.confirmed:
+                    return redirect(next_page) if next_page else redirect(url_for('user.user_dashboard'))
+                else:
+                    return redirect(next_page) if next_page else redirect(url_for('user.update_user_profile'))
         else:
             flash('Please check your username and password!', 'danger')
 

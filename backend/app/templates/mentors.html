@@ -27,6 +27,9 @@
                     <span>{{ mentor.profession }}</span>
                     <p>{{ mentor.bio }}</p>
                   </div>
+                  {% if not user.mentor and user.is_authenticated %}
+                  <a href="{{url_for('session.request_session', mentor_id=mentor.user_id)}}" class="get-started-btn mb-2">Request session</a>
+                  {% endif %}
                 </div>
               </div>
             {% endfor %}

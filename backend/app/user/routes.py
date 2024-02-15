@@ -10,6 +10,11 @@ from app.auth.models import User
 from flask_mail import Message
 from app import mail
 from app.config import Config
+from datetime import datetime
+from app.session.models import Request
+from app.posts.models import Post
+from sqlalchemy.exc import SQLAlchemyError
+
 
 user = Blueprint('user', __name__)
 
@@ -126,3 +131,45 @@ def view_user(user_id):
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+
+@login_required
+@user.route('/dashboard', methods=['GET', 'POST'])
+@check_confirmed
+def user_dashboard():
+    if request.method == 'POST':
+        data = request.form
+        title = data.get('title')
+        content = data.get('content')
+
+        try:
+            new_post = Post(title=title, content=content, author=current_user)
+            db.session.add(new_post)
+            db.session.commit()
+
+            flash('You have posted a testimony', 'success')
+            return redirect(url_for('user.user_dashboard'))
+        except SQLAlchemyError as e:
+            # Catch database-related exceptions and extract the error message
+            db.session.rollback()  # Rollback the transaction in case of an exception
+            error_message = str(e)
+            return jsonify({'status': 'error', 'message': f'Failed to create post. Error: {error_message}'}), 500
+    else:  
+        current_datetime = datetime.now()
+        formatted_datetime = current_datetime.strftime('%I:%M %p %b %d')
+
+        user_id = current_user.id
+        pending_requests = Request.query.filter_by(user_id=user_id, status='Pending').all()
+        sessions_requests = Request.query.filter_by(user_id=user_id).all()
+        return render_template('user/user_dashboard.html', pending_requests=pending_requests, 
+                            user=current_user, date=formatted_datetime, sessions_requests=sessions_requests)
+
+
+@user.route('/cancel_request/<int:request_id>')
+def cancel_request(request_id):
+    session_request = Request.query.get(request_id)
+    if session_request:
+        session_request.status = 'Cancelled'
+        db.session.commit()
+        flash('You have canceled a request', 'success')
+    return redirect(url_for('user.user_dashboard'))
