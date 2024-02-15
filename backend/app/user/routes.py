@@ -11,7 +11,7 @@ from flask_mail import Message
 from app import mail
 from app.config import Config
 from datetime import datetime
-from app.session.models import Request
+from app.session.models import Request, Session
 from app.posts.models import Post
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -161,8 +161,10 @@ def user_dashboard():
         user_id = current_user.id
         pending_requests = Request.query.filter_by(user_id=user_id, status='Pending').all()
         sessions_requests = Request.query.filter_by(user_id=user_id).all()
+        all_sessions = Session.query.filter_by(user_id=user_id).all()
         return render_template('user/user_dashboard.html', pending_requests=pending_requests, 
-                            user=current_user, date=formatted_datetime, sessions_requests=sessions_requests)
+                            user=current_user, date=formatted_datetime, 
+                            sessions_requests=sessions_requests, all_sessions=all_sessions)
 
 
 @user.route('/cancel_request/<int:request_id>')

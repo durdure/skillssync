@@ -8,7 +8,7 @@ from app.utils.decorators_1 import check_confirmed, mentor_required
 from sqlalchemy.exc import IntegrityError
 from .models import Mentor
 from datetime import datetime
-from app.session.models import Request
+from app.session.models import Request, Session
 
 
 mentor = Blueprint('mentor', __name__)
@@ -154,7 +154,7 @@ def view_mentor(mentor_id):
 
 
 @login_required
-@mentor.route('/dashboard')
+@mentor.route('/dashboard', methods=['GET', 'POST'])
 @check_confirmed
 def mentor_dashboard():
     current_datetime = datetime.now()
@@ -163,8 +163,35 @@ def mentor_dashboard():
     mentor_id = current_user.id
     pending_requests = Request.query.filter_by(mentor_id=mentor_id, status='Pending').all()
     approved_requests = Request.query.filter_by(mentor_id=mentor_id, status='Approved').all()
+    pending_sessions = Session.query.filter_by(mentor_id=mentor_id, status='Pending').all()
+    all_sessions = Session.query.all()
+
+    # Create a set to store unique user IDs
+    added_users = set()
+    
+    # Filter out duplicate user IDs
+    unique_approved_requests = []
+    for req in approved_requests:
+        if req.user_id not in added_users:
+            unique_approved_requests.append(req)
+            added_users.add(req.user_id)
+    
+    if request.method == 'POST':
+        date = request.form.get('date')
+        meeting_url = request.form.get('meeting_url')
+        user_id = request.form.get('user_id')
+        
+        # Create a new session
+        new_session = Session(date=date, meeting_url=meeting_url, mentor_id=mentor_id, user_id=user_id)
+        db.session.add(new_session)
+        db.session.commit()
+        
+        flash('Session created successfully!', 'success')
+        return redirect(url_for('mentor.mentor_dashboard'))
+
     return render_template('mentor/mentor_dashboard.html', pending_requests=pending_requests,
-                            user=current_user, date=formatted_datetime, approved_requests=approved_requests)
+                            user=current_user, date=formatted_datetime, approved_requests=approved_requests,
+                              dropdown=unique_approved_requests, sessions=pending_sessions, all_sessions=all_sessions)
 
 
 @mentor.route('/approve_request/<int:request_id>')
@@ -188,4 +215,13 @@ def decline_request(request_id):
         session_request.date = datetime.now()
         db.session.commit()
         flash('Request has been declined', 'success')
+    return redirect(url_for('mentor.mentor_dashboard'))
+
+
+
+@mentor.route('/complete_session/<int:session_id>')
+def complete_session(session_id):
+    session = Session.query.get_or_404(session_id)
+    session.status = 'Completed'
+    db.session.commit()
     return redirect(url_for('mentor.mentor_dashboard'))

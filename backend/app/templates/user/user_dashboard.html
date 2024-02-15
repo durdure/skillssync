@@ -82,17 +82,19 @@
             <!-- Pending Requests -->
         <div class="session_requests mb-4">
             <h4>Pending Requests</h4>
-            <!-- Session requests list goes here -->
-            {% if pending_requests %}
-                {% for request in pending_requests %}
-                <div style="display: flex; justify-content: space-between; align-items: center;" class="session_request">
-                    <span>You requested a session to {{ request.mentor.full_name }} on {{ request.date }}</span>
-                    <a href="{{ url_for('user.cancel_request', request_id=request.id) }}" class="btn btn-danger">Cancel Request</a>
-                </div>
-                {% endfor %}
-            {% else %}
-                <div class="session_request">No pending requests</div>
-            {% endif %}
+            <div style="max-height: 250px; overflow-y: auto;">
+                <!-- Session requests list goes here -->
+                {% if pending_requests %}
+                    {% for request in pending_requests %}
+                    <div style="display: flex; justify-content: space-between; align-items: center;" class="session_request">
+                        <span>You requested a session to {{ request.mentor.full_name }} on {{ request.date }}</span>
+                        <a href="{{ url_for('user.cancel_request', request_id=request.id) }}" class="btn btn-danger">Cancel Request</a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="session_request">No pending requests</div>
+                {% endif %}
+            </div>
         </div>
 
 
@@ -116,6 +118,28 @@
         </div>
 
             <hr>
+
+            <!-- History Session -->
+    <div class="session_management">
+        <h4>Session History</h4>
+        <div style="max-height: 250px; overflow-y: auto;">
+            <!-- Check if there are any sessions available -->
+            {% if all_sessions %}
+                <!-- Session list and management options go here -->
+                {% for session in all_sessions %}
+                <div class="session" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="mentee_name" style="margin-right: 10px;">Mentor Name: {{ session.mentor.full_name }}</span>
+                    <span class="session_date" style="margin-right: 10px;">Session is on: {{ session.date }}</span>
+                    <span class="session_date" style="margin-right: 10px;">Meeting URL: {{ session.meeting_url }}</span>
+                    <span class="session_status" style="margin-right: 10px;">Status: {{ session.status }}</span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="session_request">No sessions available</p>
+            {% endif %}
+        </div>
+    </div>
+
         <!-- Communication -->
         <div class="communication">
             <form action="" method="POST">

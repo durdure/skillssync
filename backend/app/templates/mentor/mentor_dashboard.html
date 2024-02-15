@@ -81,79 +81,129 @@ hr {
         </div>
         <hr>
         <!-- Session Requests -->
-        <div class="session_requests mb-4">
-            <h4>Session Requests</h4>
-            <!-- Session requests list goes here -->
-            <div class="session-requests">
-                {% if pending_requests %}
-                    {% for request in pending_requests %}
-                    <div style="display: flex; justify-content: space-between; align-items: center;" class="session_request">
-                        <span>{{ request.user.username }} requested a session on {{ request.date }}</span>
-                        <div class="action_buttons">
-                            <a href="{{ url_for('mentor.approve_request', request_id=request.id) }}" class="btn btn-success">Approve</a>
-                            <a href="{{ url_for('mentor.decline_request', request_id=request.id) }}" class="btn btn-danger">Decline</a>
+        <div class="row">
+            <!-- Session Requests -->
+            <div class="col-md-6">
+                <div class="session_requests mb-4">
+                    <h4>Pending Requests</h4>
+                    <div style="max-height: 250px; overflow-y: auto;">
+                        <!-- Session requests list goes here -->
+                        <div class="session-requests">
+                            {% if pending_requests %}
+                                {% for request in pending_requests %}
+                                <div style="display: flex; justify-content: space-between; align-items: center;" class="session_request">
+                                    <span>{{ request.user.username }} requested a session on {{ request.date }}</span>
+                                    <div class="action_buttons">
+                                        <a href="{{ url_for('mentor.approve_request', request_id=request.id) }}" class="btn btn-success">Approve</a>
+                                        <a href="{{ url_for('mentor.decline_request', request_id=request.id) }}" class="btn btn-danger">Decline</a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="session_request">No requests at the moment.</p>
+                            {% endif %}
                         </div>
                     </div>
-                    {% endfor %}
-                {% else %}
-                    <p class="session_request">No requests at the moment.</p>
-                {% endif %}
-            </div>            
-        </div>
-        <hr>
-
-                <!-- Session Requests -->
+                </div>
+            </div>
+        
+            <!-- Approved Requests -->
+            <div class="col-md-6">
                 <div class="session_requests mb-4">
                     <h4>Approved Requests</h4>
-                    <!-- Session requests list goes here -->
-                    <div class="session-requests">
-                        {% if approved_requests %}
-                            {% for request in approved_requests %}
-                            <div style="display: flex; justify-content: space-between; align-items: center;" class="session_request">
-                                <span>You approved {{ request.user.username }}'s request on {{ request.date }}</span>
-                            </div>
-                            {% endfor %}
-                        {% else %}
-                            <p class="session_request">No requests at the moment.</p>
-                        {% endif %}
-                    </div>            
+                    <div style="max-height: 250px; overflow-y: auto;">
+                        <!-- Session requests list goes here -->
+                        <div class="session-requests">
+                            {% if approved_requests %}
+                                {% for request in approved_requests %}
+                                <div style="display: flex; justify-content: space-between; align-items: center;" class="session_request">
+                                    <span>You approved {{ request.user.username }}'s request on {{ request.date }}</span>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="session_request">No requests at the moment.</p>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-                <hr>
+            </div>
+        </div>
+        
+        <hr>
 
         <!-- Session Scheduling -->
         <div class="session_scheduling mb-4">
             <h4>Schedule Sessions</h4>
             <!-- Session scheduling form goes here -->
             <!-- Example: -->
-            <form class="session_form">
+            <form class="session_form" method="POST">
                 <div class="form-group">
                     <label for="session_date">Date:</label>
-                    <input type="date" id="session_date" name="session_date" class="form-control">
+                    <input type="date" id="session_date" name="date" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="session_time">Time:</label>
-                    <input type="time" id="session_time" name="session_time" class="form-control">
+                    <label>Select User:</label>
+                    <select id="user_id" name="user_id" required>
+                        {% for request in dropdown%}
+                        <option value="{{ request.user_id }}">{{ request.user.username }}</option>
+                        {% endfor %}
+                    </select><br><br>
+                    
+                </div>
+                <div class="form-group">
+                    <label>Meeting url:</label>
+                    <input type="text" name="meeting_url" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-primary">Schedule Session</button>
             </form>
         </div>
-
-        <!-- Session Management -->
-        <div class="session_management">
-            <h4>Session Management</h4>
+    <h3 style="text-align: center;">Session Management</h3>
+<!-- Pending Session -->
+<div class="session_management">
+    <h4>Pending Sessions</h4>
+    <div style="max-height: 250px; overflow-y: auto;">
+        <!-- Check if there are pending sessions -->
+        {% if sessions %}
             <!-- Session list and management options go here -->
-            <!-- Example: -->
+            {% for session in sessions %}
             <div class="session" style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="mentee_name" style="margin-right: 10px;">Jane Smith</span>
-                <span class="session_date" style="margin-right: 10px;">Session on {{ date }}</span>
-                <span class="session_status" style="margin-right: 10px;">Status: pending</span>
+                <span class="mentee_name" style="margin-right: 10px;">{{ session.user.username }}</span>
+                <span class="session_date" style="margin-right: 10px;">Session is on: {{ session.date }}</span>
+                <span class="session_date" style="margin-right: 10px;">Meeting URL: {{ session.meeting_url }}</span>
+                <span class="session_status" style="margin-right: 10px;">Status: {{ session.status }}</span>
                 <div class="action_buttons">
-                    <button class="btn btn-primary">Start Session</button>
-                    <button class="btn btn-success">Complete Session</button>
+                    <a href="{{ url_for('mentor.complete_session', session_id=session.id) }}" class="btn btn-success">Complete Session</a>
                 </div>
             </div>
-            
-        </div>
+            {% endfor %}
+        {% else %}
+            <p class="session_request">No pending sessions</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- History Session -->
+<div class="session_management">
+    <h4>Session History</h4>
+    <div style="max-height: 250px; overflow-y: auto;">
+        <!-- Check if there are any sessions available -->
+        {% if all_sessions %}
+            <!-- Session list and management options go here -->
+            {% for session in all_sessions %}
+            <div class="session" style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="mentee_name" style="margin-right: 10px;">{{ session.user.username }}</span>
+                <span class="session_date" style="margin-right: 10px;">Session is on: {{ session.date }}</span>
+                <span class="session_date" style="margin-right: 10px;">Meeting URL: {{ session.meeting_url }}</span>
+                <span class="session_status" style="margin-right: 10px;">Status: {{ session.status }}</span>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="session_request">No sessions available</p>
+        {% endif %}
+    </div>
+</div>
+
+
     </div>
 </div>
 
