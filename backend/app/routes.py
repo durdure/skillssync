@@ -13,3 +13,8 @@ def index():
 def about():
     posts = Post.query.all()
     return render_template('about.html', user=current_user, posts=posts)
+
+
+@test.route('/team')
+def team():
+    return render_template('team.html', user=current_user)

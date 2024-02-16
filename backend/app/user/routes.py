@@ -19,24 +19,29 @@ from sqlalchemy.exc import SQLAlchemyError
 user = Blueprint('user', __name__)
 
 
-@user.route('/contact', methods=['POST'])
+@user.route('/contact', methods=['POST', 'GET'])
 def contact():
-    data = request.get_json()
-    name = data.get('name')
-    email = data.get('email')
-    message = data.get('message')
+    if request.method == 'POST':
+        data = request.form
+        name = data.get('name')
+        email = data.get('email')
+        subject = data.get('subject')
+        message = data.get('message')
 
-    try:
-        # Send email
-        msg = Message(subject='New Contact Us Form Submission',
-                      sender=Config.MAIL_DEFAULT_SENDER,
-                      recipients=[Config.MAIL_DEFAULT_SENDER])
-        msg.body = f"Name: {name}\nEmail: {email}\nMessage: {message}"
-        mail.send(msg)
+        try:
+            # Send email
+            msg = Message(subject='New Contact Us Form Submission',
+                        sender=Config.MAIL_DEFAULT_SENDER,
+                        recipients=[Config.MAIL_DEFAULT_SENDER])
+            msg.body = f"Name: {name}\nEmail: {email}\nSubject: {subject}\nMessage: {message}"
+            mail.send(msg)
 
-        return jsonify({'message': 'Your email has been sent successfully'})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+            flash('Your information has been sent. Thanks', 'success')
+            return redirect(url_for('user.contact'))
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
+    return render_template('contact_us.html', user=current_user)
 
 
 @login_required

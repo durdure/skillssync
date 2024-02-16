@@ -30,6 +30,7 @@
 
 <!-- Template Main CSS File -->
 <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/contact.css') }}" rel="stylesheet">
 
 
 </head>
@@ -44,10 +45,11 @@
 
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
-          <li  style="margin-right: 5rem;"><a href="{{url_for('auth.register_mentor')}}">Become a mentor?</a></li>
-          <li><a class="active" href="{{url_for('test.index')}}">Home</a></li>
+          <li  style="margin-right: 5rem;"><a href="{{url_for('mentor.list_mentors')}}">Find a mentor</a></li>
+          <li  style="margin-right: 5rem;"><a href="{{url_for('auth.register_mentor')}}">Become a mentor</a></li>
           <li><a href="{{url_for('test.about')}}">About</a></li>
-          <li><a href="{{url_for('mentor.list_mentors')}}">Mentors</a></li>
+          <li><a href="{{url_for('test.team')}}">Team</a></li>
+          <li><a href="{{url_for('user.contact')}}">Contact us</a></li>
           {% if user.is_authenticated and user.mentor%}
           <li><a href="{{url_for('mentor.mentor_dashboard')}}">Dashboard</a></li>
           {% elif user.is_authenticated %}

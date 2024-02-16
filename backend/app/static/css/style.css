@@ -694,7 +694,7 @@ section {
 
 .trainers .member img {
   margin: -1px -1px 30px -1px;
-  /* max-height: 200px; */
+  max-height: 200px;
 }
 
 .trainers .member .member-content {
@@ -1017,4 +1017,15 @@ section {
   background: #3ac162;
   color: #fff;
   text-decoration: none;
+}
+.team-header {
+  font-size: 25px;
+  font-weight: 500;
+  padding: 0;
+  line-height: 1px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #aaaaaa;
+  font-family: "Poppins", sans-serif;
+  margin-top: 6em;
 }
