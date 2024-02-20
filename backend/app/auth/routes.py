@@ -96,7 +96,6 @@ def login():
         # Check if the provided credentials match a user
         user = User.query.filter_by(username=username).first()
         if user and bcrypt.check_password_hash(user.password, password):
-            flash('You have logged in successfully!', 'success')
             login_user(user)
             if user.mentor:
                 next_page = request.args.get('next')

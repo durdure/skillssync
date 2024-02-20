@@ -10,7 +10,7 @@
 
 .mentor_dashboard {
     background-color: rgb(244, 247, 250);
-    border: 1px solid #ccc;
+    border: 1px solid black;
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 7em;
@@ -64,11 +64,26 @@ hr {
         margin-bottom: 10px;
     }
 
+.counts {
+    display: flex;
+    justify-content: space-between;
+}
+
+.each-count {
+    flex: 1;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0 5px;
+}
+
+
 </style>
 
 
 <div class="container" style="margin-top: 6em;"  data-aos="fade-up" data-aos-delay="50">
-    <h2 class="mt-3">Dashboard</h2>
+    <h2 class="mt-3">Mentor Dashboard</h2>
     <div class="mentor_dashboard">
         <div class="row mb-3">
             <div class="col-md-6">
@@ -79,6 +94,25 @@ hr {
                 <a href="{{url_for('mentor.update_mentor_profile')}}" class="btn btn-primary">Account Settings</a>
             </div>
         </div>
+        <div class="counts">
+            <div class="each-count">
+                <h5>Pending Requests</h5>
+                <p>{{pending_request_count}}</p>
+            </div>
+            <div class="each-count">
+                <h5>Approved Requests</h5>
+                <p>{{ approved_request_count }}</p>
+            </div>
+            <div class="each-count">
+                <h5>Pending Sessions</h5>
+                <p>{{ pending_session_count }}</p>
+            </div>
+            <div class="each-count">
+                <h5>Completed Sessions</h5>
+                <p>{{ completed_session_count }}</p>
+            </div>
+        </div>
+
         <hr>
         <!-- Session Requests -->
         <div class="row">

@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+  .centered-form {
+    display: flex;
+    justify-content: center;
+  }
+</style>
+
+<main id="main" data-aos="fade-in">
+
+  <div class="container">
+    <a href="{{url_for('mentor.list_mentors')}}">Go back</a>
+    <h3>Results for '{{query}}'</h3>
+
+  </div>
+
+  <!-- ======= Trainers Section ======= -->
+  <section id="trainers" class="trainers">
+    <div class="container" data-aos="fade-up">
+      <div class="row" data-aos="zoom-in" data-aos-delay="100">
+        <div class="row">
+          {% for mentor in mentors %}
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+            <div class="member">
+              <img src="{{url_for('static', filename='profile_images/' + mentor.profile_image)}}" class="img-fluid" alt="Profile Image">
+              <div class="member-content">
+                <h4><a href="{{ url_for('mentor.view_mentor', mentor_id=mentor.user_id) }}">{{ mentor.full_name }}</a></h4>
+                <span>{{ mentor.profession }}</span>
+                <p>{{ mentor.bio }}</p>
+              </div>
+              {% if not user.mentor and user.is_authenticated %}
+              <a href="{{url_for('session.request_session', mentor_id=mentor.user_id)}}" class="get-started-btn mb-2">Request session</a>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section><!-- End Trainers Section -->
+
+</main><!-- End #main -->
+
+{% endblock %}

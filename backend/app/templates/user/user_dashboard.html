@@ -64,10 +64,24 @@
         margin-top: 10px;
         margin-bottom: 10px;
     }
+    .counts {
+    display: flex;
+    justify-content: space-between;
+}
+
+.each-count {
+    flex: 1;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0 5px;
+}
+
 </style>
 
 <div class="container" style="margin-top: 6em;"  data-aos="fade-up" data-aos-delay="50">
-    <h2 class="mt-3">Dashboard</h2>
+    <h2 class="mt-3">Mentee Dashboard</h2>
     <div class="user_dashboard">
         <div class="row mb-3">
             <div class="col-md-6">
@@ -78,6 +92,21 @@
                 <a href="{{url_for('user.update_user_profile')}}" class="btn btn-primary">Account Settings</a>
             </div>
         </div>
+        <div class="counts">
+            <div class="each-count">
+                <h5>Pending Requests</h5>
+                <p>{{pending_request_count}}</p>
+            </div>
+            <div class="each-count">
+                <h5>Approved Requests</h5>
+                <p>{{ approved_request_count }}</p>
+            </div>
+            <div class="each-count">
+                <h5>Completed Sessions</h5>
+                <p>{{ completed_session_count }}</p>
+            </div>
+        </div>
+
 
             <!-- Pending Requests -->
         <div class="session_requests mb-4">

@@ -88,37 +88,63 @@ def update_mentor_profile():
         }
         # Render HTML template for updating mentor profile, passing mentor data
         return render_template('mentor/account.html', mentor=mentor_data, user=current_user)
+    
 
-
-
-@mentor.route('/all', methods=['GET'], strict_slashes=False)
+@mentor.route('/all', methods=['GET', 'POST'], strict_slashes=False)
 def list_mentors():
-    try:
-        # Query all mentors from the database
-        mentors = Mentor.query.all()
+    if request.method == 'POST':
+        # Check if the 'query' field exists in the form data
+        if 'query' in request.form:
+            query = request.form['query']
+            mentors = Mentor.query.filter(Mentor.full_name.like(f"%{query}%")).all()
+            mentor_data = []
+            for mentor in mentors:
+                mentor_info = {
+                    'user_id': mentor.id,
+                    'username': mentor.username,
+                    'email': mentor.email,
+                    'profile_image': mentor.image_file,
+                    'full_name': mentor.full_name,
+                    'profession': mentor.profession,
+                    'job_title': mentor.job_title,
+                    'company': mentor.company,
+                    'skills': mentor.skills,
+                    'availability': mentor.availability,
+                    'bio': mentor.bio,
+                    'languages_spoken': mentor.languages_spoken
+                }
+                mentor_data.append(mentor_info)
+            return render_template('mentor/search_mentor.html', mentors=mentor_data, user=current_user, query=query)
+        else:
+            # Handle case where 'query' field is missing in the form data
+            return jsonify({'error': 'Missing query parameter'}), 400
+    else:
+        try:
+            # Query all mentors from the database
+            mentors = Mentor.query.all()
 
-        # Prepare mentor data to be returned in the response
-        mentor_data = []
-        for mentor in mentors:
-            mentor_info = {
-                'user_id': mentor.id,
-                'username': mentor.username,
-                'email': mentor.email,
-                'profile_image': mentor.image_file,
-                'full_name': mentor.full_name,
-                'profession': mentor.profession,
-                'job_title': mentor.job_title,
-                'company': mentor.company,
-                'skills': mentor.skills,
-                'availability': mentor.availability,
-                'bio' : mentor.bio,
-                'languages_spoken': mentor.languages_spoken
-            }
-            mentor_data.append(mentor_info)
+            # Prepare mentor data to be returned in the response
+            mentor_data = []
+            for mentor in mentors:
+                mentor_info = {
+                    'user_id': mentor.id,
+                    'username': mentor.username,
+                    'email': mentor.email,
+                    'profile_image': mentor.image_file,
+                    'full_name': mentor.full_name,
+                    'profession': mentor.profession,
+                    'job_title': mentor.job_title,
+                    'company': mentor.company,
+                    'skills': mentor.skills,
+                    'availability': mentor.availability,
+                    'bio': mentor.bio,
+                    'languages_spoken': mentor.languages_spoken
+                }
+                mentor_data.append(mentor_info)
 
-        return render_template('mentors.html', mentors=mentor_data, user=current_user)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+            return render_template('mentors.html', mentors=mentor_data, user=current_user)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
 
 
 @mentor.route('/view/<int:mentor_id>', methods=['GET'], strict_slashes=False)
@@ -164,7 +190,13 @@ def mentor_dashboard():
     pending_requests = Request.query.filter_by(mentor_id=mentor_id, status='Pending').all()
     approved_requests = Request.query.filter_by(mentor_id=mentor_id, status='Approved').all()
     pending_sessions = Session.query.filter_by(mentor_id=mentor_id, status='Pending').all()
+    completed_sessions = Session.query.filter_by(mentor_id=mentor_id, status='Completed').all()
     all_sessions = Session.query.all()
+
+    pending_request_count = len(pending_requests)
+    approved_request_count = len(approved_requests)
+    pending_session_count = len(pending_sessions)
+    completed_session_count = len(completed_sessions)
 
     # Create a set to store unique user IDs
     added_users = set()
@@ -191,7 +223,9 @@ def mentor_dashboard():
 
     return render_template('mentor/mentor_dashboard.html', pending_requests=pending_requests,
                             user=current_user, date=formatted_datetime, approved_requests=approved_requests,
-                              dropdown=unique_approved_requests, sessions=pending_sessions, all_sessions=all_sessions)
+                              dropdown=unique_approved_requests, sessions=pending_sessions, all_sessions=all_sessions,
+                              pending_request_count=pending_request_count, approved_request_count=approved_request_count,
+                              pending_session_count=pending_session_count, completed_session_count=completed_session_count)
 
 
 @mentor.route('/approve_request/<int:request_id>')

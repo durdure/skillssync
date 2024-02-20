@@ -165,11 +165,18 @@ def user_dashboard():
 
         user_id = current_user.id
         pending_requests = Request.query.filter_by(user_id=user_id, status='Pending').all()
+        approved_requests = Request.query.filter_by(user_id=user_id, status='Approved').all()
+        completed_sessions = Session.query.filter_by(user_id=user_id, status='Completed').all()
         sessions_requests = Request.query.filter_by(user_id=user_id).all()
         all_sessions = Session.query.filter_by(user_id=user_id).all()
+
+        pending_request_count = len(pending_requests)
+        approved_request_count = len(approved_requests)
+        completed_session_count = len(completed_sessions)
         return render_template('user/user_dashboard.html', pending_requests=pending_requests, 
                             user=current_user, date=formatted_datetime, 
-                            sessions_requests=sessions_requests, all_sessions=all_sessions)
+                            sessions_requests=sessions_requests, all_sessions=all_sessions, completed_session_count=completed_session_count,
+                            pending_request_count=pending_request_count, approved_request_count=approved_request_count)
 
 
 @user.route('/cancel_request/<int:request_id>')
