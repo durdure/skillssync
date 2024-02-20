@@ -12,7 +12,7 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/user/register', methods=['GET','POST'], strict_slashes=False)
 def register_user():
-
+# Extract form data
     data = request.form
 
     username = data.get('username')
@@ -20,8 +20,9 @@ def register_user():
     password = data.get('password')
     confirm_pass = data.get('confirm_pass')
 
+# Check if the provided email already exists in the database
     user = User.query.filter_by(email=email).first()
-
+# Handle POST request for user registration
     if request.method == 'POST':
         if user:
             flash('A user with that email already exists.', 'danger')
@@ -30,17 +31,19 @@ def register_user():
         elif len(password) < 7:
             flash('Password must be at least 7 characters.', 'danger')
         else:
+            # Hash the password and create a new user
             hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
             new_user = User(username=username, email=email, password=hashed_password)
             db.session.add(new_user)
             db.session.commit()
 
+            # Generate a confirmation token and send confirmation email
             token = generate_confirmation_token(email)
             confirm_url = url_for('auth.confirm_email', token=token, _external=True)
             html = render_template('email/activate.html', confirm_url=confirm_url)
             subject = "Email Confirmation Link"
             send_email(email, subject, html)
-
+#Redirect to the confirmation page
             return render_template('error/confirm_account.html', user=current_user)
         
     return render_template('auth/signup_user.html', title='Sign up', user=current_user)
@@ -97,6 +100,7 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and bcrypt.check_password_hash(user.password, password):
             login_user(user)
+              # Redirect to appropriate dashboard based on user type and confirmation status
             if user.mentor:
                 next_page = request.args.get('next')
                 if user.confirmed:
@@ -115,11 +119,7 @@ def login():
     return render_template('auth/login.html', title='Log In', user=current_user)
 
 
-
-
-
-
-
+# Route for user logout
 @auth.route('/logout', methods=['GET'], strict_slashes=False)
 @login_required
 def logout():
@@ -128,6 +128,7 @@ def logout():
     return redirect(url_for('auth.login'))
 
 
+# Route for confirming email address
 @auth.route('/confirm/<token>')
 def confirm_email(token):
     try:
