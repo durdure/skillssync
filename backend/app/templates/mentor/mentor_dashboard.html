@@ -203,7 +203,7 @@ hr {
             <div class="session" style="display: flex; justify-content: space-between; align-items: center;">
                 <span class="mentee_name" style="margin-right: 10px;">{{ session.user.username }}</span>
                 <span class="session_date" style="margin-right: 10px;">Session is on: {{ session.date }}</span>
-                <span class="session_date" style="margin-right: 10px;">Meeting URL: {{ session.meeting_url }}</span>
+                <span class="session_date" style="margin-right: 10px;">Meeting URL: <a href="{{ session.meeting_url }}">{{ session.meeting_url }}</a></span>
                 <span class="session_status" style="margin-right: 10px;">Status: {{ session.status }}</span>
                 <div class="action_buttons">
                     <a href="{{ url_for('mentor.complete_session', session_id=session.id) }}" class="btn btn-success">Complete Session</a>
@@ -227,7 +227,7 @@ hr {
             <div class="session" style="display: flex; justify-content: space-between; align-items: center;">
                 <span class="mentee_name" style="margin-right: 10px;">{{ session.user.username }}</span>
                 <span class="session_date" style="margin-right: 10px;">Session is on: {{ session.date }}</span>
-                <span class="session_date" style="margin-right: 10px;">Meeting URL: {{ session.meeting_url }}</span>
+                <span class="session_date" style="margin-right: 10px;">Meeting URL: <a href="{{ session.meeting_url }}">{{ session.meeting_url }}</a></span>
                 <span class="session_status" style="margin-right: 10px;">Status: {{ session.status }}</span>
             </div>
             {% endfor %}
